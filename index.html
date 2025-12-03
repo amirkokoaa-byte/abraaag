@@ -1,0 +1,702 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>بوابة الفلك | Cosmic Destiny</title>
+    <!-- Google Fonts: Cairo for modern Arabic typography -->
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;700;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-deep: #050b14;
+            --bg-purple: #1a0b2e;
+            --text-gold: #ffd700;
+            --text-white: #f0f0f0;
+            --glass-bg: rgba(20, 20, 35, 0.75);
+            --glass-border: 1px solid rgba(255, 215, 0, 0.2);
+            --accent-blue: #00d2ff;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Cairo', sans-serif;
+            background: radial-gradient(circle at center, var(--bg-purple), var(--bg-deep));
+            background-attachment: fixed;
+            color: var(--text-white);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow-x: hidden;
+            text-align: right;
+        }
+
+        /* Background Stars Animation */
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background-image: 
+                radial-gradient(white, rgba(255,255,255,.2) 2px, transparent 3px),
+                radial-gradient(white, rgba(255,255,255,.15) 1px, transparent 2px),
+                radial-gradient(white, rgba(255,255,255,.1) 2px, transparent 3px);
+            background-size: 550px 550px, 350px 350px, 250px 250px;
+            background-position: 0 0, 40px 60px, 130px 270px;
+            z-index: -1;
+            animation: stars 60s linear infinite;
+        }
+
+        @keyframes stars {
+            from { transform: translateY(0); }
+            to { transform: translateY(-550px); }
+        }
+
+        h1, h2, h3 {
+            font-family: 'Cairo', sans-serif;
+            color: var(--text-gold);
+            font-weight: 900;
+        }
+
+        /* Header */
+        header {
+            text-align: center;
+            padding: 2rem 1rem;
+            background: rgba(0,0,0,0.5);
+            border-bottom: 1px solid rgba(255, 215, 0, 0.1);
+            backdrop-filter: blur(10px);
+        }
+
+        #live-clock {
+            font-size: 1.1rem;
+            color: var(--accent-blue);
+            margin-top: 0.5rem;
+            font-weight: 400;
+            direction: ltr; /* Keep numbers uniform */
+            display: inline-block;
+        }
+
+        /* Container & Layout */
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 2rem 1rem;
+            flex: 1;
+            display: grid;
+            gap: 3rem;
+        }
+
+        .section-card {
+            background: var(--glass-bg);
+            border: var(--glass-border);
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+            backdrop-filter: blur(8px);
+            transition: transform 0.3s ease;
+        }
+
+        .section-card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(255, 215, 0, 0.5);
+        }
+
+        /* Forms & Inputs */
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--text-gold);
+            font-weight: bold;
+            font-size: 1.1rem;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 12px;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.2);
+            border-radius: 8px;
+            color: white;
+            font-family: 'Cairo', sans-serif;
+            font-size: 1rem;
+            margin-bottom: 1rem;
+            text-align: right;
+        }
+
+        input:focus, select:focus {
+            outline: none;
+            border-color: var(--text-gold);
+            background: rgba(255,255,255,0.1);
+        }
+
+        select option {
+            background: var(--bg-purple);
+            color: white;
+        }
+
+        button {
+            background: linear-gradient(45deg, #b8860b, var(--text-gold));
+            border: none;
+            padding: 12px 24px;
+            color: var(--bg-deep);
+            font-weight: 900;
+            cursor: pointer;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            width: 100%;
+            font-family: 'Cairo', sans-serif;
+            font-size: 1.1rem;
+        }
+
+        button:hover {
+            filter: brightness(1.2);
+            box-shadow: 0 0 15px rgba(255, 215, 0, 0.4);
+        }
+
+        /* Output Areas */
+        .result-box {
+            margin-top: 1.5rem;
+            padding: 1.5rem;
+            background: rgba(0,0,0,0.3);
+            border-radius: 8px;
+            border-right: 4px solid var(--text-gold);
+            display: none; /* Hidden by default */
+            line-height: 1.8;
+            font-size: 1.05rem;
+        }
+
+        .result-box.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .result-title {
+            color: var(--accent-blue);
+            font-size: 1.6rem;
+            margin-bottom: 1rem;
+            font-weight: 700;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            padding-bottom: 0.5rem;
+        }
+
+        /* Feature specific layouts */
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+        }
+
+        @media (max-width: 768px) {
+            .grid-2 {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Sign Icon */
+        .sign-icon {
+            font-size: 4rem;
+            display: block;
+            margin: 0 auto 1rem auto;
+            text-align: center;
+            color: var(--text-gold);
+            text-shadow: 0 0 15px rgba(255, 215, 0, 0.6);
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 2rem;
+            background: rgba(0,0,0,0.8);
+            border-top: 1px solid rgba(255, 215, 0, 0.1);
+            margin-top: auto;
+        }
+
+        footer p {
+            color: var(--text-gold);
+            font-size: 1.1rem;
+            font-family: 'Cairo', sans-serif;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+        ::-webkit-scrollbar-track {
+            background: var(--bg-deep);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: var(--bg-purple);
+            border: 1px solid var(--text-gold);
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header -->
+    <header>
+        <h1>بوابة الفلك والأبراج</h1>
+        <div id="live-clock">جاري تحميل الوقت...</div>
+    </header>
+
+    <div class="container">
+
+        <!-- Feature A: Discover Sign -->
+        <section class="section-card" id="feature-discover">
+            <h2><span style="color:var(--accent-blue)">✦</span> اكتشف برجك</h2>
+            <div style="margin-top: 1.5rem;">
+                <label for="birthdate">أدخل تاريخ ميلادك:</label>
+                <input type="date" id="birthdate">
+                <button onclick="discoverSign()">اعرف برجي</button>
+            </div>
+            <div id="discover-result" class="result-box"></div>
+        </section>
+
+        <!-- Feature B: Detailed Info -->
+        <section class="section-card" id="feature-info">
+            <h2><span style="color:var(--accent-blue)">✦</span> خبايا الأبراج</h2>
+            <label for="info-sign-select">اختر البرج لمعرفة التفاصيل:</label>
+            <select id="info-sign-select" onchange="showSignDetails()">
+                <option value="">-- اختر البرج --</option>
+                <option value="Aries">الحمل (Aries)</option>
+                <option value="Taurus">الثور (Taurus)</option>
+                <option value="Gemini">الجوزاء (Gemini)</option>
+                <option value="Cancer">السرطان (Cancer)</option>
+                <option value="Leo">الأسد (Leo)</option>
+                <option value="Virgo">العذراء (Virgo)</option>
+                <option value="Libra">الميزان (Libra)</option>
+                <option value="Scorpio">العقرب (Scorpio)</option>
+                <option value="Sagittarius">القوس (Sagittarius)</option>
+                <option value="Capricorn">الجدي (Capricorn)</option>
+                <option value="Aquarius">الدلو (Aquarius)</option>
+                <option value="Pisces">الحوت (Pisces)</option>
+            </select>
+            <div id="info-result" class="result-box"></div>
+        </section>
+
+        <!-- Feature C: Compatibility -->
+        <section class="section-card" id="feature-compatibility">
+            <h2><span style="color:var(--accent-blue)">✦</span> حاسبة التوافق العاطفي</h2>
+            <div class="grid-2">
+                <div>
+                    <label>الطرف الأول (أنت)</label>
+                    <select id="comp-sign-1">
+                        <option value="Aries">الحمل</option>
+                        <option value="Taurus">الثور</option>
+                        <option value="Gemini">الجوزاء</option>
+                        <option value="Cancer">السرطان</option>
+                        <option value="Leo">الأسد</option>
+                        <option value="Virgo">العذراء</option>
+                        <option value="Libra">الميزان</option>
+                        <option value="Scorpio">العقرب</option>
+                        <option value="Sagittarius">القوس</option>
+                        <option value="Capricorn">الجدي</option>
+                        <option value="Aquarius">الدلو</option>
+                        <option value="Pisces">الحوت</option>
+                    </select>
+                </div>
+                <div>
+                    <label>الطرف الثاني (الشريك)</label>
+                    <select id="comp-sign-2">
+                        <option value="Aries">الحمل</option>
+                        <option value="Taurus">الثور</option>
+                        <option value="Gemini">الجوزاء</option>
+                        <option value="Cancer">السرطان</option>
+                        <option value="Leo">الأسد</option>
+                        <option value="Virgo">العذراء</option>
+                        <option value="Libra">الميزان</option>
+                        <option value="Scorpio">العقرب</option>
+                        <option value="Sagittarius">القوس</option>
+                        <option value="Capricorn">الجدي</option>
+                        <option value="Aquarius">الدلو</option>
+                        <option value="Pisces">الحوت</option>
+                    </select>
+                </div>
+            </div>
+            <button onclick="checkCompatibility()" style="margin-top: 1rem;">فحص نسبة التوافق</button>
+            <div id="comp-result" class="result-box"></div>
+        </section>
+
+        <!-- Feature D: Daily Horoscope -->
+        <section class="section-card" id="feature-daily">
+            <h2><span style="color:var(--accent-blue)">✦</span> حظك اليوم</h2>
+            <p style="margin-bottom: 1rem; font-size: 0.9rem; color: #ccc;">استشر النجوم لمعرفة ما يخبئه لك القدر اليوم.</p>
+            <label for="daily-sign-select">اختر برجك:</label>
+            <select id="daily-sign-select">
+                <option value="">-- اختر البرج --</option>
+                <option value="Aries">الحمل</option>
+                <option value="Taurus">الثور</option>
+                <option value="Gemini">الجوزاء</option>
+                <option value="Cancer">السرطان</option>
+                <option value="Leo">الأسد</option>
+                <option value="Virgo">العذراء</option>
+                <option value="Libra">الميزان</option>
+                <option value="Scorpio">العقرب</option>
+                <option value="Sagittarius">القوس</option>
+                <option value="Capricorn">الجدي</option>
+                <option value="Aquarius">الدلو</option>
+                <option value="Pisces">الحوت</option>
+            </select>
+            <button onclick="getDailyHoroscope()">اكشف طالعي اليوم</button>
+            <div id="daily-result" class="result-box"></div>
+        </section>
+
+        <!-- Feature E: Age Calculator -->
+        <section class="section-card" id="feature-age">
+            <h2><span style="color:var(--accent-blue)">✦</span> حاسبة العمر الدقيقة</h2>
+            <label for="age-dob">تاريخ الميلاد:</label>
+            <input type="date" id="age-dob">
+            <button onclick="calculateAge()">احسب عمري بدقة</button>
+            <div id="age-result" class="result-box"></div>
+        </section>
+
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <p>Developed by Programmer Amir Lamay</p>
+    </footer>
+
+    <script>
+        // --- DATA OBJECTS (ARABIC) ---
+
+        const zodiacData = {
+            "Aries": {
+                arabicName: "الحمل",
+                element: "ناري",
+                symbol: "الكبش",
+                traits: "شجاع، صريح، طموح، متسرع",
+                text: "مولود الحمل هو قائد بالفطرة، يتمتع بطاقة لا تنضب وشجاعة نادرة. كأول برج في الدائرة الفلكية، يمثل البدايات الجديدة. يتميز أصحاب هذا البرج بالصراحة المطلقة، فهم لا يعرفون التوارية أو الخداع، ما في قلوبهم يظهر على وجوههم. يعشقون التحدي والمغامرة، ولا يترددون في اقتحام المخاطر لتحقيق أهدافهم. ومع ذلك، قد يعيبهم التسرع ونفاذ الصبر، حيث يريدون تحقيق كل شيء فوراً. في العلاقات، هم عشاق شغوفون ومخلصون، لكنهم يحتاجون لشريك يتفهم حاجتهم المستمرة للحركة والاستقلال. الحمل لا يحمل الضغينة طويلاً؛ يغضب بسرعة ويرضى بسرعة أكبر."
+            },
+            "Taurus": {
+                arabicName: "الثور",
+                element: "ترابي",
+                symbol: "الثور",
+                traits: "صبور، موثوق، عملي، عنيد",
+                text: "برج الثور هو عنوان الثبات والاستقرار. يحكمه كوكب الزهرة، كوكب الجمال والحب، مما يمنح مواليده حساً فنياً عالياً وعشقاً لملذات الحياة الراقية. يتميز مولود الثور بالصبر الشديد والقدرة الهائلة على التحمل؛ عندما يضع هدفاً نصب عينيه، سيعمل عليه بهدوء وإصرار حتى يحققه مهما طال الزمن. هم أصدقاء أوفياء جداً ويمكن الاعتماد عليهم في أحلك الظروف. الجانب الآخر لثباتهم هو العناد الشديد؛ من الصعب جداً تغيير قناعاتهم. في الحب، يبحثون عن الأمان والاستقرار ويميلون للتملك والغيرة على من يحبون، لكنهم يمنحون شريكهم حياة مليئة بالرفاهية والدلال."
+            },
+            "Gemini": {
+                arabicName: "الجوزاء",
+                element: "هوائي",
+                symbol: "التيأم",
+                traits: "ذكي، اجتماعي، متكيف، متردد",
+                text: "الجوزاء هو فراشة الأبراج الاجتماعية، يحكمه عطارد كوكب التواصل والذكاء. يمتلك مواليد الجوزاء عقلاً حاداً وسرعة بديهة مذهلة. هم متحدثون بارعون ويمكنهم التكيف مع أي بيئة أو مجموعة من الناس بسهولة. يكرهون الروتين والملل، ويبحثون دائماً عن التجديد والإثارة الفكرية. مشكلتهم الأساسية تكمن في التشتت والتردد؛ فهم غالباً ما يبدأون مشاريع عديدة دون إنهائها، وقد تتغير مشاعرهم وآراؤهم بسرعة كبيرة مما يربك من حولهم. عاطفياً، يحتاجون إلى شريك يحاكي عقلهم قبل قلبهم، ويمنحهم مساحة من الحرية، فالحب لديهم يبدأ بحوار شيق."
+            },
+            "Cancer": {
+                arabicName: "السرطان",
+                element: "مائي",
+                symbol: "السرطان",
+                traits: "عاطفي، حدسي، محب للبيت، مزاجي",
+                text: "مولود السرطان هو الكتلة العاطفية الأكبر في الأبراج، يحكمه القمر الذي يؤثر على مزاجه المتقلب. يتميز بحساسية مفرطة وحدس قوي يجعله يشعر بما يدور في خلد الآخرين دون كلمات. العائلة والمنزل هما محور حياته ومصدر أمانه. السرطان يحمي من يحب بشراسة، وهو مستعد للتضحية بكل شيء لأجلهم. قد يبدو منعزلاً أو قاسياً من الخارج أحياناً، لكن هذا مجرد درع لحماية قلبه الرقيق. ذاكرته قوية جداً ولا ينسى الإساءة بسهولة. في الحب، هو شريك حنون ورومانسي جداً، يبحث عن الاستقرار العاطفي والارتباط العميق الذي يدوم للأبد."
+            },
+            "Leo": {
+                arabicName: "الأسد",
+                element: "ناري",
+                symbol: "الأسد",
+                traits: "كريم، مبدع، واثق، متغطرس أحياناً",
+                text: "الأسد، ملك الغابة، يعشق الأضواء ولفت الانتباه. يحكمه الشمس، مما يمنحه دفئاً وكاريزما طبيعية تجذب الناس إليه. يتميز مولود الأسد بالكرم الشديد والنبل، وهو لا يتردد في مساعدة المحتاجين. يمتلك ثقة عالية بالنفس وقدرات قيادية فطرية. يعشق الحياة المترفة والمظاهر الراقية. عيبه الأبرز قد يكون الغرور أو العناد في تقبل النقد، حيث يرى نفسه دائماً على حق. في العلاقات، هو شريك مخلص ومحب للحياة، يحب أن يدلل شريكه لكنه يتوقع التقدير والثناء المستمر في المقابل. خيانة الأسد أو جرح كرامته أمر لا يغتفر لديه."
+            },
+            "Virgo": {
+                arabicName: "العذراء",
+                element: "ترابي",
+                symbol: "العذراء",
+                traits: "دقيق، مجتهد، تحليلي، كثير الانتقاد",
+                text: "العذراء هو برج التفاصيل والكمال. يمتلك عقلاً تحليلياً فذاً وقدرة على ملاحظة أصغر الأخطاء التي تغيب عن الآخرين. مواليد العذراء هم أشخاص عمليون جداً، يسعون دائماً لتحسين وتطوير كل شيء من حولهم. هم خدومون بطبعهم ويجدون سعادتهم في مساعدة الآخرين وتنظيم الفوضى. قد يبدون باردين عاطفياً، لكنهم في الحقيقة يعبرون عن حبهم بالأفعال لا بالأقوال. مشكلتهم تكمن في النقد اللاذع لأنفسهم وللآخرين، وسعيهم المستحيل نحو الكمال الذي قد يسبب لهم القلق الدائم. في الحب، هم شركاء مخلصون وداعمون، يحرصون على راحة شريكهم بكل الوسائل العملية."
+            },
+            "Libra": {
+                arabicName: "الميزان",
+                element: "هوائي",
+                symbol: "الميزان",
+                traits: "دبلوماسي، جذاب، عادل، متردد",
+                text: "الميزان هو رسول السلام والجمال. يحكمه الزهرة، مما يمنحه ذوقاً رفيعاً وجاذبية لا تقاوم. يسعى مولود الميزان دائماً لتحقيق التوازن والعدل في كل جوانب حياته، ويكره الصراعات والمواجهات الحادة. هو دبلوماسي من الطراز الأول، قادر على رؤية الأمور من كافة الزوايا. اجتماعي جداً ولا يحب الوحدة. عيبه الأساسي هو التردد الشديد وصعوبة اتخاذ القرارات الحاسمة خوفاً من ارتكاب الخطأ أو إغضاب أحد الأطراف. في العلاقات، هو الرومانسي الحالم الذي يبحث عن الشريك المثالي الذي يشاركه اهتماماته الفكرية والجمالية، ويعتبر الزواج والشراكة أولوية قصوى في حياته."
+            },
+            "Scorpio": {
+                arabicName: "العقرب",
+                element: "مائي",
+                symbol: "العقرب",
+                traits: "غامض، قوي الإرادة، عاطفي جداً، غيور",
+                text: "العقرب هو أكثر الأبراج غموضاً وكثافة. يتمتع بقوة إرادة حديدية وشخصية مغناطيسية. مولود العقرب لا يعرف الحلول الوسط؛ فهو إما يحب بجنون أو يكره بشدة. يمتلك بصيرة نافذة وقدرة على قراءة ما بين السطور وكشف الأسرار. كتوم جداً فيما يخص حياته الشخصية ولا يمنح ثقته بسهولة، ولكن إذا وثق، كان أوفى الأصدقاء. عيبه القاتل هو الشك والغيرة وحب التملك، ولا ينسى الإساءة أبداً، وقد يميل للانتقام إذا غُدر به. في الحب، يبحث عن الاندماج الروحي والجسدي الكامل مع الشريك، وعلاقته دائماً ما تكون مليئة بالشغف والعمق العاطفي."
+            },
+            "Sagittarius": {
+                arabicName: "القوس",
+                element: "ناري",
+                symbol: "الرامي",
+                traits: "متفائل، محب للحرية، صريح، غير صبور",
+                text: "القوس هو المسافر الفيلسوف، عاشق الحرية والانطلاق. يتميز بتفاؤل لا حدود له ونظرة إيجابية للحياة مهما كانت الظروف. يحب استكشاف ثقافات وأماكن جديدة، ويكره القيود والروتين القاتل. صريح جداً لدرجة قد تكون جارحة أحياناً، لكنه لا يقصد الإيذاء، فقلبه طيب كالأطفال. يمتلك حساً فكاهياً عالياً ويحب نشر المرح أينما حل. عيبه التهور والوعود التي قد لا يستطيع الوفاء بها نتيجة حماسه الزائد. في العلاقات العاطفية، يحتاج إلى شريك يشاركه مغامراته ولا يحاول تقييد حريته، فالحب لديه رحلة ممتعة لاكتشاف العالم والذات."
+            },
+            "Capricorn": {
+                arabicName: "الجدي",
+                element: "ترابي",
+                symbol: "الماعز",
+                traits: "طموح، منضبط، مسؤول، متشائم أحياناً",
+                text: "الجدي هو قمة الجدية والطموح. يتميز بقدرة هائلة على العمل الشاق والصبر للوصول إلى أعلى المراتب. هو شخص عملي، واقعي، ويحسب خطواته بدقة متناهية. يحترم التقاليد والقوانين ويقدر المسؤولية. قد يبدو بارداً أو جافاً من الخارج، لكنه يحمل قلباً مخلصاً ومحباً لمن هم في دائرته المقربة. يميل للقلق والتشاؤم أحياناً بسبب تحمله لأعباء كبيرة. النجاح المهني والمادي يمثل له الأمان. في الحب، لا يتسرع في الارتباط، بل يبحث عن شريك يضيف لحياته قيمة واستقراراً، وعندما يلتزم، يكون نعم السند والشريك الذي يمكن الاعتماد عليه مدى الحياة."
+            },
+            "Aquarius": {
+                arabicName: "الدلو",
+                element: "هوائي",
+                symbol: "حامل الدلو",
+                traits: "مبتكر، مستقل، إنساني، متمرد",
+                text: "الدلو هو المتمرد والمبتكر، الذي يسبق عصره بأفكاره. يتميز باستقلالية شديدة ورفض لكل ما هو تقليدي ومألوف. يمتلك نزعة إنسانية قوية ويسعى دائماً لإصلاح العالم ومساعدة المظلومين. مفكر عقلاني جداً، وقد يبدو منفصلاً عاطفياً أو بارداً في علاقاته الشخصية لأنه يغلب المنطق على العاطفة. يعشق الصداقة ويعتبرها أقدس من الحب أحياناً. عنيد في آرائه ولا يقبل أن يفرض عليه أحد شيئاً. في العلاقات، ينجذب للأشخاص الأذكياء والمميزين، ويحتاج إلى مساحة كبيرة من الحرية الشخصية، فالارتباط التقليدي قد يجعله يشعر بالاختناق."
+            },
+            "Pisces": {
+                arabicName: "الحوت",
+                element: "مائي",
+                symbol: "السمكتان",
+                traits: "حالم، متعاطف، فني، هروبي",
+                text: "الحوت هو آخر الأبراج، ويجمع في داخله حكمة وعاطفة كل الأبراج السابقة. هو الحالم الرومانسي الذي يعيش في عالمه الخاص من الخيال والإبداع. يتميز بتعاطف لا حدود له مع الآخرين، وغالباً ما يمتص طاقة من حوله، مما يجعله بحاجة للعزلة بين الحين والآخر لاستعادة توازنه. فنان بالفطرة ومبدع. مشكلته تكمن في الهروب من الواقع الصعب وعدم القدرة على المواجهة، وقد يلعب دور الضحية أحياناً. طيب القلب وكريم جداً. في الحب، يبحث عن الاندماج الروحي الكامل، ويغرق شريكه في بحر من الرومانسية والحنان، لكنه يحتاج لمن يمسك بيده ليرشده في الواقع العملي."
+            }
+        };
+
+        const dailyAdvice = [
+            "اليوم هو وقت مثالي لاتخاذ خطوات جريئة في عملك، الفلك يدعمك.",
+            "خذ قسطاً من الراحة، صحتك النفسية تحتاج إلى الهدوء والتأمل.",
+            "مفاجأة غير متوقعة قد تغير مسار يومك للأفضل، كن مستعداً.",
+            "كن حذراً في مصاريفك اليوم، الادخار هو الحل الأمثل.",
+            "الأجواء الرومانسية تحيط بك، فرصة رائعة لتعزيز علاقتك بالشريك.",
+            "طاقة إبداعية كبيرة تسيطر عليك، ابدأ المشروع الذي أجلته طويلاً.",
+            "احذر من سوء الفهم في التواصل مع الأصدقاء، انتقِ كلماتك بحكمة.",
+            "صديق قديم قد يعود للظهور في حياتك، اللقاء سيكون مثمراً.",
+            "ركز على صحتك الجسدية، الرياضة اليوم ستمنحك طاقة مضاعفة.",
+            "حدسك قوي جداً اليوم، اتبع قلبك ولا تعتمد فقط على المنطق.",
+            "الصبر مفتاح الفرج، لا تستعجل النتائج فالخير قادم ببطء ولكن بثبات.",
+            "العمل الجماعي هو سر نجاحك اليوم، لا تنعزل بأفكارك."
+        ];
+
+        // --- CLOCK FUNCTION (With Arabic Numerals Logic if needed, but keeping standard for readability) ---
+        function updateClock() {
+            const now = new Date();
+            const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+            const dateStr = now.toLocaleDateString('ar-EG', options);
+            const timeStr = now.toLocaleTimeString('ar-EG');
+            document.getElementById('live-clock').innerHTML = `${dateStr} | ${timeStr}`;
+        }
+        setInterval(updateClock, 1000);
+        updateClock();
+
+        // --- FEATURE A: DISCOVER SIGN ---
+        function getSignFromDate(dateStr) {
+            const date = new Date(dateStr);
+            const day = date.getDate();
+            const month = date.getMonth() + 1;
+
+            if ((month == 1 && day >= 20) || (month == 2 && day <= 18)) return "Aquarius";
+            if ((month == 2 && day >= 19) || (month == 3 && day <= 20)) return "Pisces";
+            if ((month == 3 && day >= 21) || (month == 4 && day <= 19)) return "Aries";
+            if ((month == 4 && day >= 20) || (month == 5 && day <= 20)) return "Taurus";
+            if ((month == 5 && day >= 21) || (month == 6 && day <= 20)) return "Gemini";
+            if ((month == 6 && day >= 21) || (month == 7 && day <= 22)) return "Cancer";
+            if ((month == 7 && day >= 23) || (month == 8 && day <= 22)) return "Leo";
+            if ((month == 8 && day >= 23) || (month == 9 && day <= 22)) return "Virgo";
+            if ((month == 9 && day >= 23) || (month == 10 && day <= 22)) return "Libra";
+            if ((month == 10 && day >= 23) || (month == 11 && day <= 21)) return "Scorpio";
+            if ((month == 11 && day >= 22) || (month == 12 && day <= 21)) return "Sagittarius";
+            if ((month == 12 && day >= 22) || (month == 1 && day <= 19)) return "Capricorn";
+            return "Unknown";
+        }
+
+        function discoverSign() {
+            const dob = document.getElementById('birthdate').value;
+            const resultBox = document.getElementById('discover-result');
+            
+            if (!dob) {
+                resultBox.style.display = 'block';
+                resultBox.innerHTML = '<span style="color:#ff6b6b">الرجاء إدخال تاريخ ميلاد صحيح.</span>';
+                return;
+            }
+
+            const signKey = getSignFromDate(dob);
+            const data = zodiacData[signKey];
+
+            resultBox.classList.remove('active');
+            void resultBox.offsetWidth; // Trigger reflow
+            resultBox.classList.add('active');
+            
+            resultBox.innerHTML = `
+                <div class="result-title">برجك هو: ${data.arabicName}</div>
+                <div class="sign-icon">${getSymbolIcon(signKey)}</div>
+                <p>بناءً على تاريخ ميلادك <strong>${dob}</strong>، النجوم تخبرنا أنك من مواليد برج <strong>${data.arabicName}</strong>.</p>
+                <p style="margin-top:0.5rem"><strong>العنصر:</strong> ${data.element} | <strong>الرمز:</strong> ${data.symbol}</p>
+            `;
+        }
+
+        function getSymbolIcon(sign) {
+            const icons = {
+                "Aries": "♈", "Taurus": "♉", "Gemini": "♊", "Cancer": "♋",
+                "Leo": "♌", "Virgo": "♍", "Libra": "♎", "Scorpio": "♏",
+                "Sagittarius": "♐", "Capricorn": "♑", "Aquarius": "♒", "Pisces": "♓"
+            };
+            return icons[sign] || "★";
+        }
+
+        // --- FEATURE B: DETAILED INFO ---
+        function showSignDetails() {
+            const sign = document.getElementById('info-sign-select').value;
+            const resultBox = document.getElementById('info-result');
+
+            if (!sign) {
+                resultBox.style.display = 'none';
+                return;
+            }
+
+            const data = zodiacData[sign];
+            resultBox.classList.remove('active');
+            void resultBox.offsetWidth;
+            resultBox.classList.add('active');
+
+            resultBox.innerHTML = `
+                <div class="result-title">${data.arabicName} - ${data.symbol} <span style="float:left; font-size:2rem">${getSymbolIcon(sign)}</span></div>
+                <p style="color:var(--text-gold); font-weight:bold; margin-bottom:1rem; font-size:1.1rem;">أبرز الصفات: ${data.traits}</p>
+                <p style="text-align:justify;">${data.text}</p>
+            `;
+        }
+
+        // --- FEATURE C: COMPATIBILITY ---
+        function checkCompatibility() {
+            const s1 = document.getElementById('comp-sign-1').value;
+            const s2 = document.getElementById('comp-sign-2').value;
+            const resultBox = document.getElementById('comp-result');
+
+            if (!s1 || !s2) {
+                return;
+            }
+
+            const name1 = zodiacData[s1].arabicName;
+            const name2 = zodiacData[s2].arabicName;
+            const e1 = zodiacData[s1].element;
+            const e2 = zodiacData[s2].element;
+
+            let intensity = "متوسطة";
+            let desc = "";
+            let score = 50;
+
+            // Logic based on elements (Expanded Arabic logic)
+            if (s1 === s2) {
+                intensity = "عالية جداً";
+                desc = `عندما يلتقي ${name1} مع ${name2}، فإن الأمر يشبه النظر في المرآة. أنتما تفهمان بعضكما البعض دون كلام، وتتشاركان نفس القيم والطبيعة (${e1}). العلاقة ستكون قوية جداً، لكن احذروا من تضخيم عيوب بعضكما البعض. التحدي هو كسر الروتين لأنكما متشابهان جداً.`;
+            } else if ((e1 === "ناري" && e2 === "ناري") || (e1 === "ترابي" && e2 === "ترابي") || (e1 === "هوائي" && e2 === "هوائي") || (e1 === "مائي" && e2 === "مائي")) {
+                intensity = "ممتازة ومتناغمة";
+                desc = `علاقة مثالية! كلاكما تنتميان لنفس العنصر (${e1})، مما يعني تدفقاً عاطفياً وفكرياً سلساً. أنتما تتحدثان نفس اللغة، وتوفران لبعضكما الدعم والراحة النفسية. هذه العلاقة مؤهلة جداً للنجاح الطويل والاستقرار والزواج.`;
+            } else if ((e1 === "ناري" && e2 === "هوائي") || (e1 === "هوائي" && e2 === "ناري")) {
+                intensity = "حماسية ومثيرة";
+                desc = "النار تحتاج الهواء لتشتعل، والهواء يسخن بالنار. علاقة مليئة بالشغف، المغامرة، والأفكار المتجددة. لن تشعرا بالملل أبداً معاً. التواصل بينكما ممتاز، وتدفعان بعضكما للنجاح. قد تكون العلاقة صاخبة أحياناً لكنها ممتعة للغاية.";
+            } else if ((e1 === "ترابي" && e2 === "مائي") || (e1 === "مائي" && e2 === "ترابي")) {
+                intensity = "عميقة ومثمرة";
+                desc = "الماء يروي الأرض، والأرض تحتضن الماء. علاقة تكاملية رائعة. الطرف الترابي يوفر الأمان والاستقرار، والطرف المائي يوفر الحب والحنان والعاطفة. معاً يمكنكما بناء أسرة سعيدة ومنزل دافئ. أنتما توازنان بعضكما بشكل مذهل.";
+            } else if ((e1 === "ناري" && e2 === "مائي") || (e1 === "مائي" && e2 === "ناري")) {
+                intensity = "تحدي عاطفي";
+                desc = "علاقة معقدة، فالماء يطفئ النار، والنار تبخر الماء. الانجذاب قد يكون قوياً في البداية بسبب الاختلاف، لكن سوء الفهم وارد جداً. الطرف المائي قد يجد الناري قاسياً، والناري قد يجد المائي مفرط الحساسية. تتطلب الكثير من التنازلات لنجاحها.";
+            } else {
+                // Earth + Fire, Earth + Air, Air + Water
+                intensity = "متباينة";
+                desc = "أنتما شخصيتان مختلفتان تماماً. طرف يبحث عن المنطق والواقع، والآخر يبحث عن الخيال أو الحركة. هذا الاختلاف قد يكون جذاباً للتعلم من بعضكما، لكنه قد يسبب احتكاكاً يومياً. العلاقة تحتاج لجهد كبير واحترام للاختلافات لتستمر.";
+            }
+
+            resultBox.classList.remove('active');
+            void resultBox.offsetWidth;
+            resultBox.classList.add('active');
+
+            resultBox.innerHTML = `
+                <div class="result-title">${name1} & ${name2}</div>
+                <p><strong>مستوى التوافق:</strong> <span style="color:var(--text-gold); font-size:1.2rem;">${intensity}</span></p>
+                <p style="margin-top:1rem;">${desc}</p>
+                <p style="margin-top:1rem; padding-top:1rem; border-top:1px dashed #555;"><strong>نصيحة الفلك:</strong> النجوم تمنحنا الإشارات، ولكن الحب والتفاهم هما من يصنعان المعجزات.</p>
+            `;
+        }
+
+        // --- FEATURE D: DAILY HOROSCOPE ---
+        function getDailyHoroscope() {
+            const sign = document.getElementById('daily-sign-select').value;
+            const resultBox = document.getElementById('daily-result');
+
+            if (!sign) {
+                resultBox.style.display = 'block';
+                resultBox.innerHTML = '<span style="color:#ff6b6b">الرجاء اختيار البرج أولاً.</span>';
+                return;
+            }
+
+            const arabicSign = zodiacData[sign].arabicName;
+            
+            // Pseudo-random selection based on Date
+            const today = new Date();
+            const seed = today.getDate() + today.getMonth() + sign.length; // Simple hash
+            const predictionIndex = seed % dailyAdvice.length;
+            const prediction = dailyAdvice[predictionIndex];
+
+            resultBox.classList.remove('active');
+            void resultBox.offsetWidth;
+            resultBox.classList.add('active');
+
+            resultBox.innerHTML = `
+                <div class="result-title">حظك اليوم: ${arabicSign}</div>
+                <div class="sign-icon" style="font-size:3rem;">${getSymbolIcon(sign)}</div>
+                <p style="font-size:1.3rem; color:var(--text-white); font-style:italic; line-height:1.6;">"${prediction}"</p>
+                <p style="margin-top:1.5rem; font-size:0.9rem; color:#aaa;">نصيحة كونية: تفاءل بالخير تجده.</p>
+            `;
+        }
+
+        // --- FEATURE E: AGE CALCULATOR ---
+        function calculateAge() {
+            const dobInput = document.getElementById('age-dob').value;
+            const resultBox = document.getElementById('age-result');
+
+            if (!dobInput) {
+                resultBox.style.display = 'block';
+                resultBox.innerHTML = '<span style="color:#ff6b6b">الرجاء إدخال تاريخ الميلاد.</span>';
+                return;
+            }
+
+            const dob = new Date(dobInput);
+            const now = new Date();
+
+            let years = now.getFullYear() - dob.getFullYear();
+            let months = now.getMonth() - dob.getMonth();
+            let days = now.getDate() - dob.getDate();
+
+            if (days < 0) {
+                months--;
+                const prevMonth = new Date(now.getFullYear(), now.getMonth(), 0);
+                days += prevMonth.getDate();
+            }
+            if (months < 0) {
+                years--;
+                months += 12;
+            }
+
+            resultBox.classList.remove('active');
+            void resultBox.offsetWidth;
+            resultBox.classList.add('active');
+
+            resultBox.innerHTML = `
+                <div class="result-title">عمرك الآن</div>
+                <div style="display:flex; justify-content:space-around; text-align:center; direction:ltr;">
+                    <div>
+                        <span style="font-size:2.5rem; color:var(--text-gold); font-weight:900;">${years}</span><br>سنة
+                    </div>
+                    <div>
+                        <span style="font-size:2.5rem; color:var(--text-gold); font-weight:900;">${months}</span><br>شهر
+                    </div>
+                    <div>
+                        <span style="font-size:2.5rem; color:var(--text-gold); font-weight:900;">${days}</span><br>يوم
+                    </div>
+                </div>
+                <p style="margin-top:1.5rem; text-align:center; font-size:1.1rem;">لقد أتممت ${years} دورة كاملة حول الشمس!</p>
+            `;
+        }
+
+    </script>
+</body>
+</html>
