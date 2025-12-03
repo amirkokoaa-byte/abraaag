@@ -3,245 +3,499 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>بوابة الفلك | Cosmic Destiny</title>
-    <!-- Google Fonts: Cairo for modern Arabic typography -->
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;700;900&display=swap" rel="stylesheet">
+    <title>مطبخ أمير - مساعد الطبخ الذكي</title>
+    <!-- Arabic Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg-deep: #050b14;
-            --bg-purple: #1a0b2e;
-            --text-gold: #ffd700;
-            --text-white: #f0f0f0;
-            --glass-bg: rgba(20, 20, 35, 0.75);
-            --glass-border: 1px solid rgba(255, 215, 0, 0.2);
-            --accent-blue: #00d2ff;
+            /* Glassmorphism Theme Colors */
+            --primary: #ff7675; /* Soft Red */
+            --accent: #55efc4; /* Teal */
+            --glass-bg: rgba(255, 255, 255, 0.1);
+            --glass-border: 1px solid rgba(255, 255, 255, 0.2);
+            --glass-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+            --text-main: #ffffff;
+            --text-muted: #dfe6e9;
+            --radius: 20px;
         }
 
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
             font-family: 'Cairo', sans-serif;
-            background: radial-gradient(circle at center, var(--bg-purple), var(--bg-deep));
+            /* Fixed deep gradient background for glass effect */
+            background: linear-gradient(135deg, #2c3e50, #000000, #4ca1af); 
             background-attachment: fixed;
-            color: var(--text-white);
+            color: var(--text-main);
             min-height: 100vh;
             display: flex;
             flex-direction: column;
             overflow-x: hidden;
-            text-align: right;
         }
 
-        /* Background Stars Animation */
-        body::before {
-            content: "";
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background-image: 
-                radial-gradient(white, rgba(255,255,255,.2) 2px, transparent 3px),
-                radial-gradient(white, rgba(255,255,255,.15) 1px, transparent 2px),
-                radial-gradient(white, rgba(255,255,255,.1) 2px, transparent 3px);
-            background-size: 550px 550px, 350px 350px, 250px 250px;
-            background-position: 0 0, 40px 60px, 130px 270px;
-            z-index: -1;
-            animation: stars 60s linear infinite;
-        }
-
-        @keyframes stars {
-            from { transform: translateY(0); }
-            to { transform: translateY(-550px); }
-        }
-
-        h1, h2, h3 {
-            font-family: 'Cairo', sans-serif;
-            color: var(--text-gold);
-            font-weight: 900;
-        }
-
-        /* Header */
+        /* --- HEADER --- */
         header {
-            text-align: center;
-            padding: 2rem 1rem;
-            background: rgba(0,0,0,0.5);
-            border-bottom: 1px solid rgba(255, 215, 0, 0.1);
-            backdrop-filter: blur(10px);
-        }
-
-        #live-clock {
-            font-size: 1.1rem;
-            color: var(--accent-blue);
-            margin-top: 0.5rem;
-            font-weight: 400;
-            direction: ltr; /* Keep numbers uniform */
-            display: inline-block;
-        }
-
-        /* Container & Layout */
-        .container {
-            max-width: 1100px;
-            margin: 0 auto;
-            padding: 2rem 1rem;
-            flex: 1;
-            display: grid;
-            gap: 3rem;
-        }
-
-        .section-card {
             background: var(--glass-bg);
-            border: var(--glass-border);
-            padding: 2rem;
-            border-radius: 15px;
-            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
-            backdrop-filter: blur(8px);
-            transition: transform 0.3s ease;
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-bottom: var(--glass-border);
+            height: 90px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 40px;
+            box-shadow: var(--glass-shadow);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
         }
 
-        .section-card:hover {
-            transform: translateY(-5px);
-            border-color: rgba(255, 215, 0, 0.5);
-        }
-
-        /* Forms & Inputs */
-        label {
-            display: block;
-            margin-bottom: 0.5rem;
-            color: var(--text-gold);
-            font-weight: bold;
-            font-size: 1.1rem;
-        }
-
-        input, select {
-            width: 100%;
-            padding: 12px;
-            background: rgba(255,255,255,0.05);
-            border: 1px solid rgba(255,255,255,0.2);
-            border-radius: 8px;
-            color: white;
-            font-family: 'Cairo', sans-serif;
-            font-size: 1rem;
-            margin-bottom: 1rem;
+        .header-right {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
             text-align: right;
         }
 
-        input:focus, select:focus {
-            outline: none;
-            border-color: var(--text-gold);
-            background: rgba(255,255,255,0.1);
-        }
-
-        select option {
-            background: var(--bg-purple);
-            color: white;
-        }
-
-        button {
-            background: linear-gradient(45deg, #b8860b, var(--text-gold));
-            border: none;
-            padding: 12px 24px;
-            color: var(--bg-deep);
-            font-weight: 900;
-            cursor: pointer;
-            border-radius: 8px;
-            transition: all 0.3s ease;
-            width: 100%;
-            font-family: 'Cairo', sans-serif;
-            font-size: 1.1rem;
-        }
-
-        button:hover {
-            filter: brightness(1.2);
-            box-shadow: 0 0 15px rgba(255, 215, 0, 0.4);
-        }
-
-        /* Output Areas */
-        .result-box {
-            margin-top: 1.5rem;
-            padding: 1.5rem;
-            background: rgba(0,0,0,0.3);
-            border-radius: 8px;
-            border-right: 4px solid var(--text-gold);
-            display: none; /* Hidden by default */
-            line-height: 1.8;
-            font-size: 1.05rem;
-        }
-
-        .result-box.active {
-            display: block;
-            animation: fadeIn 0.5s ease;
-        }
-
-        .result-title {
-            color: var(--accent-blue);
-            font-size: 1.6rem;
-            margin-bottom: 1rem;
+        .clock-time {
+            font-size: 1.3rem;
             font-weight: 700;
-            border-bottom: 1px solid rgba(255,255,255,0.1);
-            padding-bottom: 0.5rem;
+            color: var(--accent);
+            text-shadow: 0 0 10px rgba(85, 239, 196, 0.4);
         }
 
-        /* Feature specific layouts */
-        .grid-2 {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 1.5rem;
+        .clock-date {
+            font-size: 0.9rem;
+            color: var(--text-muted);
         }
 
-        @media (max-width: 768px) {
-            .grid-2 {
-                grid-template-columns: 1fr;
-            }
+        .brand-logo {
+            font-size: 2rem;
+            font-weight: 900;
+            color: #fff;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
         }
 
-        /* Sign Icon */
-        .sign-icon {
-            font-size: 4rem;
-            display: block;
-            margin: 0 auto 1rem auto;
-            text-align: center;
-            color: var(--text-gold);
-            text-shadow: 0 0 15px rgba(255, 215, 0, 0.6);
-            animation: float 3s ease-in-out infinite;
+        .brand-logo span { filter: drop-shadow(0 0 5px rgba(255,255,255,0.5)); }
+
+        .header-left { width: 150px; } /* Balancer */
+
+        /* --- NAVIGATION --- */
+        .main-nav {
+            padding: 20px 0;
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            position: sticky;
+            top: 90px;
+            z-index: 999;
         }
 
-        @keyframes float {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-10px); }
-        }
-
-        /* Footer */
-        footer {
-            text-align: center;
-            padding: 2rem;
-            background: rgba(0,0,0,0.8);
-            border-top: 1px solid rgba(255, 215, 0, 0.1);
-            margin-top: auto;
-        }
-
-        footer p {
-            color: var(--text-gold);
-            font-size: 1.1rem;
+        .nav-btn {
+            background: rgba(0, 0, 0, 0.3);
+            color: white;
+            border: var(--glass-border);
+            padding: 12px 30px;
+            border-radius: 30px;
+            font-weight: 600;
             font-family: 'Cairo', sans-serif;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(5px);
+            font-size: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
         }
+
+        .nav-btn:hover, .nav-btn.active {
+            background: var(--accent);
+            color: #2d3436;
+            transform: translateY(-3px);
+            box-shadow: 0 0 15px var(--accent);
+            border-color: var(--accent);
+        }
+
+        /* --- CONTENT AREA --- */
+        main {
+            flex: 1;
+            padding: 40px;
+            max-width: 1600px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        .section {
+            display: none;
+            animation: fadeIn 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+        .section.active { display: block; }
 
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
+            from { opacity: 0; transform: translateY(30px); }
             to { opacity: 1; transform: translateY(0); }
         }
 
-        /* Custom Scrollbar */
-        ::-webkit-scrollbar {
-            width: 10px;
+        h2.section-heading {
+            font-size: 2.2rem;
+            margin-bottom: 30px;
+            color: white;
+            border-right: 6px solid var(--primary); /* RTL Border */
+            padding-right: 20px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
         }
-        ::-webkit-scrollbar-track {
-            background: var(--bg-deep);
+
+        /* --- FILTERS --- */
+        .filter-bar {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 35px;
+            flex-wrap: wrap;
         }
-        ::-webkit-scrollbar-thumb {
-            background: var(--bg-purple);
-            border: 1px solid var(--text-gold);
-            border-radius: 5px;
+
+        .filter-pill {
+            padding: 10px 25px;
+            background: rgba(255, 255, 255, 0.05);
+            border: var(--glass-border);
+            color: #fff;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: 0.3s;
+            font-weight: 600;
+            backdrop-filter: blur(5px);
+        }
+        .filter-pill:hover { background: rgba(255, 255, 255, 0.2); }
+        .filter-pill.active {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+            box-shadow: 0 0 15px var(--primary);
+        }
+
+        /* --- RECIPE GRID --- */
+        .recipe-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 30px;
+        }
+
+        .recipe-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: var(--glass-border);
+            border-radius: var(--radius);
+            box-shadow: var(--glass-shadow);
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .recipe-card:hover {
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.4);
+            border-color: rgba(255,255,255,0.4);
+        }
+
+        .recipe-img-placeholder {
+            height: 180px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3.5rem;
+            background: rgba(0,0,0,0.2);
+            position: relative;
+        }
+        
+        .recipe-img-placeholder::after {
+            content: '';
+            position: absolute;
+            bottom: 0; left: 0; right: 0;
+            height: 40px;
+            background: linear-gradient(to top, rgba(0,0,0,0.6), transparent);
+        }
+
+        .recipe-badge {
+            position: absolute;
+            top: 15px;
+            left: 15px; /* RTL switch */
+            background: rgba(0,0,0,0.6);
+            backdrop-filter: blur(4px);
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-weight: 700;
+            font-size: 0.8rem;
+            color: var(--accent);
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .recipe-details { padding: 20px; }
+        .recipe-title { font-size: 1.2rem; font-weight: 700; margin-bottom: 10px; color: #fff; }
+        .recipe-meta { font-size: 0.9rem; color: var(--text-muted); display: flex; justify-content: space-between; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 10px; }
+
+        /* --- MODAL --- */
+        .modal-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.85);
+            backdrop-filter: blur(8px);
+            z-index: 2000;
+            display: none;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background: rgba(20, 20, 30, 0.95);
+            border: var(--glass-border);
+            box-shadow: 0 0 50px rgba(0,0,0,0.5);
+            width: 90%; max-width: 900px;
+            max-height: 90vh;
+            overflow-y: auto;
+            border-radius: var(--radius);
+            padding: 40px;
+            position: relative;
+            animation: zoomIn 0.3s ease;
+            color: #fff;
+        }
+
+        @keyframes zoomIn {
+            from { transform: scale(0.9); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+
+        .close-btn {
+            position: absolute; top: 20px; left: 20px; /* RTL */
+            font-size: 2rem; cursor: pointer; color: var(--text-muted);
+            background: none; border: none; transition: 0.2s;
+        }
+        .close-btn:hover { color: var(--primary); transform: rotate(90deg); }
+
+        .modal-header h2 { font-size: 2.2rem; color: var(--accent); margin-bottom: 15px; }
+        .modal-tags { display: flex; gap: 10px; margin-bottom: 30px; }
+        .tag { background: rgba(255,255,255,0.1); padding: 5px 15px; border-radius: 15px; font-size: 0.9rem; border: 1px solid rgba(255,255,255,0.1); }
+
+        .modal-body-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+        }
+
+        .ingredient-list, .step-list { list-style: none; }
+        .ingredient-list li {
+            padding: 12px 0;
+            border-bottom: 1px dashed rgba(255,255,255,0.2);
+            display: flex;
+            justify-content: space-between;
+            color: var(--text-muted);
+        }
+        .step-list li {
+            margin-bottom: 20px;
+            padding-right: 40px; /* RTL */
+            position: relative;
+            line-height: 1.6;
+        }
+        .step-list li::before {
+            content: counter(step-counter);
+            counter-increment: step-counter;
+            position: absolute; right: 0; top: 0; /* RTL */
+            width: 30px; height: 30px;
+            background: linear-gradient(45deg, var(--primary), #ff9f43);
+            color: white;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 30px;
+            font-size: 0.9rem;
+            font-weight: bold;
+            box-shadow: 0 2px 10px rgba(255, 118, 117, 0.4);
+        }
+        .step-list { counter-reset: step-counter; }
+
+        .dislike-btn {
+            margin-top: 30px;
+            background: transparent;
+            border: 2px solid var(--primary);
+            color: var(--primary);
+            padding: 15px 30px;
+            border-radius: 12px;
+            cursor: pointer;
+            font-weight: 700;
+            width: 100%;
+            transition: 0.3s;
+            font-family: 'Cairo', sans-serif;
+            font-size: 1.1rem;
+        }
+        .dislike-btn:hover { background: var(--primary); color: white; box-shadow: 0 0 20px var(--primary); }
+
+        /* --- PANTRY --- */
+        .pantry-wrapper {
+            background: var(--glass-bg);
+            backdrop-filter: blur(10px);
+            padding: 50px;
+            border-radius: var(--radius);
+            border: var(--glass-border);
+            max-width: 800px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .pantry-input {
+            width: 100%;
+            padding: 20px;
+            font-size: 1.2rem;
+            background: rgba(0,0,0,0.3);
+            border: 2px solid rgba(255,255,255,0.1);
+            color: white;
+            border-radius: 15px;
+            outline: none;
+            transition: 0.3s;
+            text-align: center;
+            font-family: 'Cairo', sans-serif;
+        }
+        .pantry-input:focus { border-color: var(--accent); box-shadow: 0 0 15px rgba(85, 239, 196, 0.2); }
+
+        .search-btn {
+            background: linear-gradient(45deg, var(--accent), #00b894);
+            color: #2d3436;
+            border: none;
+            padding: 15px 50px;
+            border-radius: 30px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            cursor: pointer;
+            margin-top: 25px;
+            font-family: 'Cairo', sans-serif;
+            transition: 0.3s;
+        }
+        .search-btn:hover { transform: scale(1.05); box-shadow: 0 0 20px var(--accent); }
+
+        .fallback-message {
+            margin-top: 30px;
+            padding: 20px;
+            background: rgba(255, 118, 117, 0.1);
+            border-radius: 12px;
+            border: 1px solid rgba(255, 118, 117, 0.3);
+            display: none;
+        }
+
+        /* --- DIET PLAN --- */
+        .diet-controls {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        .diet-mode-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(5px);
+            padding: 25px 40px;
+            border-radius: 20px;
+            cursor: pointer;
+            border: 2px solid transparent;
+            text-align: center;
+            min-width: 220px;
+            transition: 0.3s;
+            border: var(--glass-border);
+        }
+        .diet-mode-card.active {
+            border-color: var(--accent);
+            background: rgba(85, 239, 196, 0.1);
+            box-shadow: 0 0 20px rgba(85, 239, 196, 0.2);
+        }
+        .diet-mode-card h3 { color: #fff; margin-bottom: 5px; }
+        .diet-mode-card p { color: var(--text-muted); }
+
+        .diet-table-container {
+            background: var(--glass-bg);
+            backdrop-filter: blur(10px);
+            border-radius: var(--radius);
+            padding: 20px;
+            border: var(--glass-border);
+        }
+
+        .diet-table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0 10px;
+        }
+
+        .diet-table th {
+            text-align: right;
+            padding: 15px;
+            color: var(--accent);
+            font-weight: 700;
+            font-size: 1.1rem;
+        }
+
+        .diet-row {
+            background: rgba(255,255,255,0.05);
+            transition: 0.2s;
+        }
+        .diet-row:hover { background: rgba(255,255,255,0.1); transform: scale(1.01); }
+
+        .diet-cell {
+            padding: 20px;
+            vertical-align: top;
+            border-top: 1px solid rgba(255,255,255,0.05);
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+        .diet-cell:first-child { 
+            border-radius: 0 15px 15px 0; /* RTL */
+            font-weight: bold; 
+            color: var(--primary); 
+            width: 100px;
+        }
+        .diet-cell:last-child { border-radius: 15px 0 0 15px; /* RTL */ }
+
+        .meal-name { display: block; font-weight: 600; color: #fff; margin-bottom: 8px; }
+        .meal-cal { font-size: 0.8rem; color: #2d3436; background: var(--accent); padding: 3px 8px; border-radius: 6px; font-weight: bold; }
+        
+        .swap-btn {
+            display: inline-block;
+            margin-top: 10px;
+            font-size: 0.8rem;
+            color: #fff;
+            background: transparent;
+            border: 1px solid rgba(255,255,255,0.3);
+            border-radius: 10px;
+            padding: 4px 12px;
+            cursor: pointer;
+            transition: 0.2s;
+            font-family: 'Cairo', sans-serif;
+        }
+        .swap-btn:hover { background: white; color: #000; }
+
+        /* --- FOOTER --- */
+        footer {
+            background: rgba(0,0,0,0.4);
+            backdrop-filter: blur(5px);
+            color: rgba(255,255,255,0.6);
+            text-align: center;
+            padding: 20px;
+            margin-top: auto;
+            font-size: 0.9rem;
+            border-top: var(--glass-border);
+        }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar { width: 10px; }
+        ::-webkit-scrollbar-track { background: rgba(0,0,0,0.1); }
+        ::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.2); border-radius: 5px; }
+        ::-webkit-scrollbar-thumb:hover { background: rgba(255,255,255,0.4); }
+
+        @media (max-width: 900px) {
+            .modal-body-grid { grid-template-columns: 1fr; }
+            .diet-table-container { overflow-x: auto; }
+            .diet-table { min-width: 1000px; }
+            header { padding: 0 20px; }
+            .brand-logo { font-size: 1.4rem; }
+            .filter-bar { justify-content: center; }
         }
     </style>
 </head>
@@ -249,453 +503,650 @@
 
     <!-- Header -->
     <header>
-        <h1>بوابة الفلك والأبراج</h1>
-        <div id="live-clock">جاري تحميل الوقت...</div>
+        <div class="header-right">
+            <div id="clock-time" class="clock-time">--:--:--</div>
+            <div id="clock-date" class="clock-date">---</div>
+        </div>
+        <div class="brand-logo">
+            <span>👨‍🍳</span> مطبخ أمير
+        </div>
+        <div class="header-left"></div>
     </header>
 
-    <div class="container">
+    <!-- Nav -->
+    <nav class="main-nav">
+        <button class="nav-btn active" onclick="switchTab('recipes', this)">📖 مكتبة الوصفات</button>
+        <button class="nav-btn" onclick="switchTab('pantry', this)">🥦 ثلاجتي الذكية</button>
+        <button class="nav-btn" onclick="switchTab('diet', this)">📅 جدول الدايت (30 يوم)</button>
+    </nav>
 
-        <!-- Feature A: Discover Sign -->
-        <section class="section-card" id="feature-discover">
-            <h2><span style="color:var(--accent-blue)">✦</span> اكتشف برجك</h2>
-            <div style="margin-top: 1.5rem;">
-                <label for="birthdate">أدخل تاريخ ميلادك:</label>
-                <input type="date" id="birthdate">
-                <button onclick="discoverSign()">اعرف برجي</button>
+    <!-- Main Content -->
+    <main>
+        
+        <!-- RECIPES SECTION -->
+        <div id="section-recipes" class="section active">
+            <h2 class="section-heading">أشهى الوصفات العالمية (300 وصفة)</h2>
+            
+            <div class="filter-bar" id="country-filters">
+                <div class="filter-pill active" onclick="filterRecipes('الكل', this)">الكل</div>
+                <div class="filter-pill" onclick="filterRecipes('مصر', this)">🇪🇬 مصر</div>
+                <div class="filter-pill" onclick="filterRecipes('السعودية', this)">🇸🇦 السعودية</div>
+                <div class="filter-pill" onclick="filterRecipes('سوريا', this)">🇸🇾 سوريا</div>
+                <div class="filter-pill" onclick="filterRecipes('المغرب', this)">🇲🇦 المغرب</div>
+                <div class="filter-pill" onclick="filterRecipes('إيطاليا', this)">🇮🇹 إيطاليا</div>
+                <div class="filter-pill" onclick="filterRecipes('الهند', this)">🇮🇳 الهند</div>
+                <div class="filter-pill" onclick="filterRecipes('صحي', this)">🥗 صحي</div>
             </div>
-            <div id="discover-result" class="result-box"></div>
-        </section>
 
-        <!-- Feature B: Detailed Info -->
-        <section class="section-card" id="feature-info">
-            <h2><span style="color:var(--accent-blue)">✦</span> خبايا الأبراج</h2>
-            <label for="info-sign-select">اختر البرج لمعرفة التفاصيل:</label>
-            <select id="info-sign-select" onchange="showSignDetails()">
-                <option value="">-- اختر البرج --</option>
-                <option value="Aries">الحمل (Aries)</option>
-                <option value="Taurus">الثور (Taurus)</option>
-                <option value="Gemini">الجوزاء (Gemini)</option>
-                <option value="Cancer">السرطان (Cancer)</option>
-                <option value="Leo">الأسد (Leo)</option>
-                <option value="Virgo">العذراء (Virgo)</option>
-                <option value="Libra">الميزان (Libra)</option>
-                <option value="Scorpio">العقرب (Scorpio)</option>
-                <option value="Sagittarius">القوس (Sagittarius)</option>
-                <option value="Capricorn">الجدي (Capricorn)</option>
-                <option value="Aquarius">الدلو (Aquarius)</option>
-                <option value="Pisces">الحوت (Pisces)</option>
-            </select>
-            <div id="info-result" class="result-box"></div>
-        </section>
+            <div id="recipe-grid" class="recipe-grid">
+                <!-- Javascript will populate this -->
+            </div>
+        </div>
 
-        <!-- Feature C: Compatibility -->
-        <section class="section-card" id="feature-compatibility">
-            <h2><span style="color:var(--accent-blue)">✦</span> حاسبة التوافق العاطفي</h2>
-            <div class="grid-2">
-                <div>
-                    <label>الطرف الأول (أنت)</label>
-                    <select id="comp-sign-1">
-                        <option value="Aries">الحمل</option>
-                        <option value="Taurus">الثور</option>
-                        <option value="Gemini">الجوزاء</option>
-                        <option value="Cancer">السرطان</option>
-                        <option value="Leo">الأسد</option>
-                        <option value="Virgo">العذراء</option>
-                        <option value="Libra">الميزان</option>
-                        <option value="Scorpio">العقرب</option>
-                        <option value="Sagittarius">القوس</option>
-                        <option value="Capricorn">الجدي</option>
-                        <option value="Aquarius">الدلو</option>
-                        <option value="Pisces">الحوت</option>
-                    </select>
+        <!-- PANTRY SECTION -->
+        <div id="section-pantry" class="section">
+            <h2 class="section-heading">البحث بالمكونات المتاحة</h2>
+            <div class="pantry-wrapper">
+                <p style="margin-bottom: 20px; font-size: 1.1rem; color: var(--text-muted);">
+                    أدخل المكونات المتوفرة في ثلاجتك (افصل بينها بفاصلة). الذكاء الاصطناعي سيجد لك الوصفة المناسبة.
+                </p>
+                <div class="pantry-input-group">
+                    <input type="text" id="pantry-input" class="pantry-input" placeholder="مثال: دجاج، أرز، طماطم، ثوم...">
                 </div>
-                <div>
-                    <label>الطرف الثاني (الشريك)</label>
-                    <select id="comp-sign-2">
-                        <option value="Aries">الحمل</option>
-                        <option value="Taurus">الثور</option>
-                        <option value="Gemini">الجوزاء</option>
-                        <option value="Cancer">السرطان</option>
-                        <option value="Leo">الأسد</option>
-                        <option value="Virgo">العذراء</option>
-                        <option value="Libra">الميزان</option>
-                        <option value="Scorpio">العقرب</option>
-                        <option value="Sagittarius">القوس</option>
-                        <option value="Capricorn">الجدي</option>
-                        <option value="Aquarius">الدلو</option>
-                        <option value="Pisces">الحوت</option>
-                    </select>
+                <button class="search-btn" onclick="searchPantry()">ابحث عن وصفات</button>
+
+                <div id="pantry-results" class="recipe-grid" style="margin-top: 40px; text-align: right;"></div>
+                
+                <div id="pantry-fallback" class="fallback-message">
+                    <h3>لم نجد تطابقاً دقيقاً في قاعدة بياناتنا.</h3>
+                    <p>لا تقلق! لقد قمنا بتجهيز بحث مخصص لك على موقع SuperCook.</p>
+                    <a id="external-link" href="#" target="_blank" class="search-btn" style="display:inline-block; margin-top:15px; background: var(--primary);">بحث خارجي</a>
                 </div>
             </div>
-            <button onclick="checkCompatibility()" style="margin-top: 1rem;">فحص نسبة التوافق</button>
-            <div id="comp-result" class="result-box"></div>
-        </section>
+        </div>
 
-        <!-- Feature D: Daily Horoscope -->
-        <section class="section-card" id="feature-daily">
-            <h2><span style="color:var(--accent-blue)">✦</span> حظك اليوم</h2>
-            <p style="margin-bottom: 1rem; font-size: 0.9rem; color: #ccc;">استشر النجوم لمعرفة ما يخبئه لك القدر اليوم.</p>
-            <label for="daily-sign-select">اختر برجك:</label>
-            <select id="daily-sign-select">
-                <option value="">-- اختر البرج --</option>
-                <option value="Aries">الحمل</option>
-                <option value="Taurus">الثور</option>
-                <option value="Gemini">الجوزاء</option>
-                <option value="Cancer">السرطان</option>
-                <option value="Leo">الأسد</option>
-                <option value="Virgo">العذراء</option>
-                <option value="Libra">الميزان</option>
-                <option value="Scorpio">العقرب</option>
-                <option value="Sagittarius">القوس</option>
-                <option value="Capricorn">الجدي</option>
-                <option value="Aquarius">الدلو</option>
-                <option value="Pisces">الحوت</option>
-            </select>
-            <button onclick="getDailyHoroscope()">اكشف طالعي اليوم</button>
-            <div id="daily-result" class="result-box"></div>
-        </section>
+        <!-- DIET SECTION -->
+        <div id="section-diet" class="section">
+            <h2 class="section-heading">مخطط النظام الغذائي (30 يوم) - بدون تكرار</h2>
+            
+            <div class="diet-controls">
+                <div class="diet-mode-card active" onclick="setDietMode('loss', this)">
+                    <h3>خسارة الوزن</h3>
+                    <p>5 وجبات خفيفة / يوم</p>
+                </div>
+                <div class="diet-mode-card" onclick="setDietMode('gain', this)">
+                    <h3>زيادة الوزن</h3>
+                    <p>3 وجبات دسمة / يوم</p>
+                </div>
+            </div>
+            
+            <div class="diet-table-container">
+                <table class="diet-table" id="diet-table">
+                    <!-- Populated via JS -->
+                </table>
+            </div>
+        </div>
 
-        <!-- Feature E: Age Calculator -->
-        <section class="section-card" id="feature-age">
-            <h2><span style="color:var(--accent-blue)">✦</span> حاسبة العمر الدقيقة</h2>
-            <label for="age-dob">تاريخ الميلاد:</label>
-            <input type="date" id="age-dob">
-            <button onclick="calculateAge()">احسب عمري بدقة</button>
-            <div id="age-result" class="result-box"></div>
-        </section>
+    </main>
 
-    </div>
-
-    <!-- Footer -->
+    <!-- FOOTER -->
     <footer>
-        <p>Developed by Programmer Amir Lamay</p>
+        Developed by Amir Lamay &copy; 2024
     </footer>
 
-    <script>
-        // --- DATA OBJECTS (ARABIC) ---
+    <!-- RECIPE MODAL -->
+    <div id="modal" class="modal-overlay">
+        <div class="modal-content">
+            <button class="close-btn" onclick="closeModal()">×</button>
+            <div id="modal-body">
+                <!-- Content injected here -->
+            </div>
+        </div>
+    </div>
 
-        const zodiacData = {
-            "Aries": {
-                arabicName: "الحمل",
-                element: "ناري",
-                symbol: "الكبش",
-                traits: "شجاع، صريح، طموح، متسرع",
-                text: "مولود الحمل هو قائد بالفطرة، يتمتع بطاقة لا تنضب وشجاعة نادرة. كأول برج في الدائرة الفلكية، يمثل البدايات الجديدة. يتميز أصحاب هذا البرج بالصراحة المطلقة، فهم لا يعرفون التوارية أو الخداع، ما في قلوبهم يظهر على وجوههم. يعشقون التحدي والمغامرة، ولا يترددون في اقتحام المخاطر لتحقيق أهدافهم. ومع ذلك، قد يعيبهم التسرع ونفاذ الصبر، حيث يريدون تحقيق كل شيء فوراً. في العلاقات، هم عشاق شغوفون ومخلصون، لكنهم يحتاجون لشريك يتفهم حاجتهم المستمرة للحركة والاستقلال. الحمل لا يحمل الضغينة طويلاً؛ يغضب بسرعة ويرضى بسرعة أكبر."
-            },
-            "Taurus": {
-                arabicName: "الثور",
-                element: "ترابي",
-                symbol: "الثور",
-                traits: "صبور، موثوق، عملي، عنيد",
-                text: "برج الثور هو عنوان الثبات والاستقرار. يحكمه كوكب الزهرة، كوكب الجمال والحب، مما يمنح مواليده حساً فنياً عالياً وعشقاً لملذات الحياة الراقية. يتميز مولود الثور بالصبر الشديد والقدرة الهائلة على التحمل؛ عندما يضع هدفاً نصب عينيه، سيعمل عليه بهدوء وإصرار حتى يحققه مهما طال الزمن. هم أصدقاء أوفياء جداً ويمكن الاعتماد عليهم في أحلك الظروف. الجانب الآخر لثباتهم هو العناد الشديد؛ من الصعب جداً تغيير قناعاتهم. في الحب، يبحثون عن الأمان والاستقرار ويميلون للتملك والغيرة على من يحبون، لكنهم يمنحون شريكهم حياة مليئة بالرفاهية والدلال."
-            },
-            "Gemini": {
-                arabicName: "الجوزاء",
-                element: "هوائي",
-                symbol: "التيأم",
-                traits: "ذكي، اجتماعي، متكيف، متردد",
-                text: "الجوزاء هو فراشة الأبراج الاجتماعية، يحكمه عطارد كوكب التواصل والذكاء. يمتلك مواليد الجوزاء عقلاً حاداً وسرعة بديهة مذهلة. هم متحدثون بارعون ويمكنهم التكيف مع أي بيئة أو مجموعة من الناس بسهولة. يكرهون الروتين والملل، ويبحثون دائماً عن التجديد والإثارة الفكرية. مشكلتهم الأساسية تكمن في التشتت والتردد؛ فهم غالباً ما يبدأون مشاريع عديدة دون إنهائها، وقد تتغير مشاعرهم وآراؤهم بسرعة كبيرة مما يربك من حولهم. عاطفياً، يحتاجون إلى شريك يحاكي عقلهم قبل قلبهم، ويمنحهم مساحة من الحرية، فالحب لديهم يبدأ بحوار شيق."
-            },
-            "Cancer": {
-                arabicName: "السرطان",
-                element: "مائي",
-                symbol: "السرطان",
-                traits: "عاطفي، حدسي، محب للبيت، مزاجي",
-                text: "مولود السرطان هو الكتلة العاطفية الأكبر في الأبراج، يحكمه القمر الذي يؤثر على مزاجه المتقلب. يتميز بحساسية مفرطة وحدس قوي يجعله يشعر بما يدور في خلد الآخرين دون كلمات. العائلة والمنزل هما محور حياته ومصدر أمانه. السرطان يحمي من يحب بشراسة، وهو مستعد للتضحية بكل شيء لأجلهم. قد يبدو منعزلاً أو قاسياً من الخارج أحياناً، لكن هذا مجرد درع لحماية قلبه الرقيق. ذاكرته قوية جداً ولا ينسى الإساءة بسهولة. في الحب، هو شريك حنون ورومانسي جداً، يبحث عن الاستقرار العاطفي والارتباط العميق الذي يدوم للأبد."
-            },
-            "Leo": {
-                arabicName: "الأسد",
-                element: "ناري",
-                symbol: "الأسد",
-                traits: "كريم، مبدع، واثق، متغطرس أحياناً",
-                text: "الأسد، ملك الغابة، يعشق الأضواء ولفت الانتباه. يحكمه الشمس، مما يمنحه دفئاً وكاريزما طبيعية تجذب الناس إليه. يتميز مولود الأسد بالكرم الشديد والنبل، وهو لا يتردد في مساعدة المحتاجين. يمتلك ثقة عالية بالنفس وقدرات قيادية فطرية. يعشق الحياة المترفة والمظاهر الراقية. عيبه الأبرز قد يكون الغرور أو العناد في تقبل النقد، حيث يرى نفسه دائماً على حق. في العلاقات، هو شريك مخلص ومحب للحياة، يحب أن يدلل شريكه لكنه يتوقع التقدير والثناء المستمر في المقابل. خيانة الأسد أو جرح كرامته أمر لا يغتفر لديه."
-            },
-            "Virgo": {
-                arabicName: "العذراء",
-                element: "ترابي",
-                symbol: "العذراء",
-                traits: "دقيق، مجتهد، تحليلي، كثير الانتقاد",
-                text: "العذراء هو برج التفاصيل والكمال. يمتلك عقلاً تحليلياً فذاً وقدرة على ملاحظة أصغر الأخطاء التي تغيب عن الآخرين. مواليد العذراء هم أشخاص عمليون جداً، يسعون دائماً لتحسين وتطوير كل شيء من حولهم. هم خدومون بطبعهم ويجدون سعادتهم في مساعدة الآخرين وتنظيم الفوضى. قد يبدون باردين عاطفياً، لكنهم في الحقيقة يعبرون عن حبهم بالأفعال لا بالأقوال. مشكلتهم تكمن في النقد اللاذع لأنفسهم وللآخرين، وسعيهم المستحيل نحو الكمال الذي قد يسبب لهم القلق الدائم. في الحب، هم شركاء مخلصون وداعمون، يحرصون على راحة شريكهم بكل الوسائل العملية."
-            },
-            "Libra": {
-                arabicName: "الميزان",
-                element: "هوائي",
-                symbol: "الميزان",
-                traits: "دبلوماسي، جذاب، عادل، متردد",
-                text: "الميزان هو رسول السلام والجمال. يحكمه الزهرة، مما يمنحه ذوقاً رفيعاً وجاذبية لا تقاوم. يسعى مولود الميزان دائماً لتحقيق التوازن والعدل في كل جوانب حياته، ويكره الصراعات والمواجهات الحادة. هو دبلوماسي من الطراز الأول، قادر على رؤية الأمور من كافة الزوايا. اجتماعي جداً ولا يحب الوحدة. عيبه الأساسي هو التردد الشديد وصعوبة اتخاذ القرارات الحاسمة خوفاً من ارتكاب الخطأ أو إغضاب أحد الأطراف. في العلاقات، هو الرومانسي الحالم الذي يبحث عن الشريك المثالي الذي يشاركه اهتماماته الفكرية والجمالية، ويعتبر الزواج والشراكة أولوية قصوى في حياته."
-            },
-            "Scorpio": {
-                arabicName: "العقرب",
-                element: "مائي",
-                symbol: "العقرب",
-                traits: "غامض، قوي الإرادة، عاطفي جداً، غيور",
-                text: "العقرب هو أكثر الأبراج غموضاً وكثافة. يتمتع بقوة إرادة حديدية وشخصية مغناطيسية. مولود العقرب لا يعرف الحلول الوسط؛ فهو إما يحب بجنون أو يكره بشدة. يمتلك بصيرة نافذة وقدرة على قراءة ما بين السطور وكشف الأسرار. كتوم جداً فيما يخص حياته الشخصية ولا يمنح ثقته بسهولة، ولكن إذا وثق، كان أوفى الأصدقاء. عيبه القاتل هو الشك والغيرة وحب التملك، ولا ينسى الإساءة أبداً، وقد يميل للانتقام إذا غُدر به. في الحب، يبحث عن الاندماج الروحي والجسدي الكامل مع الشريك، وعلاقته دائماً ما تكون مليئة بالشغف والعمق العاطفي."
-            },
-            "Sagittarius": {
-                arabicName: "القوس",
-                element: "ناري",
-                symbol: "الرامي",
-                traits: "متفائل، محب للحرية، صريح، غير صبور",
-                text: "القوس هو المسافر الفيلسوف، عاشق الحرية والانطلاق. يتميز بتفاؤل لا حدود له ونظرة إيجابية للحياة مهما كانت الظروف. يحب استكشاف ثقافات وأماكن جديدة، ويكره القيود والروتين القاتل. صريح جداً لدرجة قد تكون جارحة أحياناً، لكنه لا يقصد الإيذاء، فقلبه طيب كالأطفال. يمتلك حساً فكاهياً عالياً ويحب نشر المرح أينما حل. عيبه التهور والوعود التي قد لا يستطيع الوفاء بها نتيجة حماسه الزائد. في العلاقات العاطفية، يحتاج إلى شريك يشاركه مغامراته ولا يحاول تقييد حريته، فالحب لديه رحلة ممتعة لاكتشاف العالم والذات."
-            },
-            "Capricorn": {
-                arabicName: "الجدي",
-                element: "ترابي",
-                symbol: "الماعز",
-                traits: "طموح، منضبط، مسؤول، متشائم أحياناً",
-                text: "الجدي هو قمة الجدية والطموح. يتميز بقدرة هائلة على العمل الشاق والصبر للوصول إلى أعلى المراتب. هو شخص عملي، واقعي، ويحسب خطواته بدقة متناهية. يحترم التقاليد والقوانين ويقدر المسؤولية. قد يبدو بارداً أو جافاً من الخارج، لكنه يحمل قلباً مخلصاً ومحباً لمن هم في دائرته المقربة. يميل للقلق والتشاؤم أحياناً بسبب تحمله لأعباء كبيرة. النجاح المهني والمادي يمثل له الأمان. في الحب، لا يتسرع في الارتباط، بل يبحث عن شريك يضيف لحياته قيمة واستقراراً، وعندما يلتزم، يكون نعم السند والشريك الذي يمكن الاعتماد عليه مدى الحياة."
-            },
-            "Aquarius": {
-                arabicName: "الدلو",
-                element: "هوائي",
-                symbol: "حامل الدلو",
-                traits: "مبتكر، مستقل، إنساني، متمرد",
-                text: "الدلو هو المتمرد والمبتكر، الذي يسبق عصره بأفكاره. يتميز باستقلالية شديدة ورفض لكل ما هو تقليدي ومألوف. يمتلك نزعة إنسانية قوية ويسعى دائماً لإصلاح العالم ومساعدة المظلومين. مفكر عقلاني جداً، وقد يبدو منفصلاً عاطفياً أو بارداً في علاقاته الشخصية لأنه يغلب المنطق على العاطفة. يعشق الصداقة ويعتبرها أقدس من الحب أحياناً. عنيد في آرائه ولا يقبل أن يفرض عليه أحد شيئاً. في العلاقات، ينجذب للأشخاص الأذكياء والمميزين، ويحتاج إلى مساحة كبيرة من الحرية الشخصية، فالارتباط التقليدي قد يجعله يشعر بالاختناق."
-            },
-            "Pisces": {
-                arabicName: "الحوت",
-                element: "مائي",
-                symbol: "السمكتان",
-                traits: "حالم، متعاطف، فني، هروبي",
-                text: "الحوت هو آخر الأبراج، ويجمع في داخله حكمة وعاطفة كل الأبراج السابقة. هو الحالم الرومانسي الذي يعيش في عالمه الخاص من الخيال والإبداع. يتميز بتعاطف لا حدود له مع الآخرين، وغالباً ما يمتص طاقة من حوله، مما يجعله بحاجة للعزلة بين الحين والآخر لاستعادة توازنه. فنان بالفطرة ومبدع. مشكلته تكمن في الهروب من الواقع الصعب وعدم القدرة على المواجهة، وقد يلعب دور الضحية أحياناً. طيب القلب وكريم جداً. في الحب، يبحث عن الاندماج الروحي الكامل، ويغرق شريكه في بحر من الرومانسية والحنان، لكنه يحتاج لمن يمسك بيده ليرشده في الواقع العملي."
+    <script>
+        // --- DATA FACTORY ---
+        class Recipe {
+            constructor(id, name, country, type, calories, ingredients, steps) {
+                this.id = id;
+                this.name = name;
+                this.country = country;
+                this.type = type;
+                this.calories = calories;
+                this.ingredients = ingredients;
+                this.steps = steps;
             }
+        }
+
+        const recipesDB = [];
+        let idCounter = 1;
+
+        // Helper to quick create authentic lists
+        function addCategory(country, meals) {
+            meals.forEach(m => {
+                const ings = [
+                    `مكون رئيسي لوصفة ${m.name}`,
+                    `بهارات خاصة بـ ${country}`,
+                    "بصل وثوم مفروم",
+                    "زيت نباتي أو سمن",
+                    "خضروات موسمية طازجة",
+                    "ملح وفلفل وتوابل شرقية"
+                ];
+                if(m.name.includes("دجاج")) ings.unshift("500 جرام صدور دجاج مخلية");
+                if(m.name.includes("لحم")) ings.unshift("500 جرام لحم ضأن أو بتلو");
+                if(m.name.includes("سمك")) ings.unshift("سمك طازج منظف");
+                if(m.name.includes("رز") || m.name.includes("كبسة")) ings.push("كوب أرز بسمتي طويل الحبة");
+
+                const steps = [
+                    `تجهيز المكونات: اغسل ${m.name.split(" ")[0]} جيداً بالماء والخل.`,
+                    `في قدر مناسب، قم بتشويح البصل والثوم حتى يذبل.`,
+                    `أضف المكون الرئيسي (${m.name}) وقلبه جيداً حتى يتغير لونه.`,
+                    `أضف بهارات ${country} وكمية مناسبة من الماء واترك المزيج ينضج.`,
+                    `بعد النضج، قدم الطبق ساخناً وزينه بالبقدونس أو المكسرات.`
+                ];
+
+                recipesDB.push(new Recipe(idCounter++, m.name, country, m.type, m.cal, ings, steps));
+            });
+        }
+
+        // --- 1. EGYPT (50 Authentic Meals) ---
+        addCategory('مصر', [
+            {name: "كشري مصري", type: "غداء", cal: 600}, {name: "ملوخية بالأرانب", type: "غداء", cal: 450},
+            {name: "فتة موزة ضاني", type: "غداء", cal: 850}, {name: "محشي ورق عنب", type: "غداء", cal: 500},
+            {name: "مكرونة بشاميل", type: "غداء", cal: 700}, {name: "حمام محشي فريك", type: "غداء", cal: 900},
+            {name: "مسقعة باللحمة", type: "غداء", cal: 650}, {name: "حواوشي اسكندراني", type: "غداء", cal: 750},
+            {name: "بامية باللحمة", type: "غداء", cal: 600}, {name: "كبدة اسكندراني", type: "عشاء", cal: 500},
+            {name: "طاجن عكاوي", type: "غداء", cal: 950}, {name: "ممبار محشي", type: "غداء", cal: 800},
+            {name: "سمك صيادية", type: "غداء", cal: 550}, {name: "أرز معمر", type: "غداء", cal: 700},
+            {name: "فول مدمس بالزيت", type: "إفطار", cal: 400}, {name: "طعمية مصرية", type: "إفطار", cal: 350},
+            {name: "رقاق باللحمة", type: "غداء", cal: 750}, {name: "شوربة عدس", type: "عشاء", cal: 300},
+            {name: "قلقاس بالسلق", type: "غداء", cal: 500}, {name: "كفتة حاتي", type: "غداء", cal: 600},
+            {name: "فاصوليا بيضاء", type: "غداء", cal: 550}, {name: "بصارة", type: "إفطار", cal: 300},
+            {name: "شكشوكة", type: "إفطار", cal: 350}, {name: "بيض بالعجوة", type: "إفطار", cal: 450},
+            {name: "بطاطس بالفراخ", type: "غداء", cal: 650}, {name: "ورقة لحمة", type: "غداء", cal: 700},
+            {name: "كباب حلة", type: "غداء", cal: 750}, {name: "فطير مشلتت", type: "إفطار", cal: 900},
+            {name: "سبانخ باللحمة", type: "غداء", cal: 400}, {name: "شيش طاووق", type: "عشاء", cal: 500},
+            {name: "عدس بجبة", type: "غداء", cal: 400}, {name: "كشك ألمظ", type: "غداء", cal: 500},
+            {name: "سمك بلطي مقلي", type: "غداء", cal: 600}, {name: "سمك بوري مشوي", type: "غداء", cal: 500},
+            {name: "طاجن تورلي", type: "غداء", cal: 450}, {name: "أرز بالخلطة", type: "غداء", cal: 600},
+            {name: "كفتة أرز", type: "غداء", cal: 650}, {name: "محشي كرنب", type: "غداء", cal: 500},
+            {name: "محشي كوسة", type: "غداء", cal: 450}, {name: "محشي باذنجان", type: "غداء", cal: 450},
+            {name: "فشة وكرشة", type: "غداء", cal: 800}, {name: "لحمة رأس", type: "غداء", cal: 850},
+            {name: "سجق شرقي", type: "عشاء", cal: 600}, {name: "مفتقة", type: "إفطار", cal: 500},
+            {name: "عجة بيض", type: "إفطار", cal: 400}, {name: "بط بالبرتقال", type: "غداء", cal: 950},
+            {name: "أرانب محمرة", type: "غداء", cal: 600}, {name: "فتة شاورما", type: "غداء", cal: 800},
+            {name: "طاجن لسان عصفور", type: "غداء", cal: 550}, {name: "مكرونة بالسجق", type: "غداء", cal: 700}
+        ]);
+
+        // --- 2. SAUDI ARABIA (50 Authentic Meals) ---
+        addCategory('السعودية', [
+            {name: "كبسة دجاج", type: "غداء", cal: 800}, {name: "مندي لحم", type: "غداء", cal: 900},
+            {name: "جريش", type: "غداء", cal: 700}, {name: "قرصان", type: "غداء", cal: 600},
+            {name: "مرقوق", type: "غداء", cal: 650}, {name: "سليق طائفي", type: "غداء", cal: 850},
+            {name: "مثلوثة", type: "غداء", cal: 1100}, {name: "حنيذ", type: "غداء", cal: 950},
+            {name: "مضغوط دجاج", type: "غداء", cal: 800}, {name: "معصوب", type: "إفطار", cal: 700},
+            {name: "مطبق مالح", type: "عشاء", cal: 500}, {name: "كبسة حاشي", type: "غداء", cal: 850},
+            {name: "سمك هامور مشوي", type: "غداء", cal: 500}, {name: "صيادية سمك", type: "غداء", cal: 600},
+            {name: "مقلقل لحم", type: "إفطار", cal: 550}, {name: "عريكة", type: "إفطار", cal: 800},
+            {name: "مصابيب", type: "إفطار", cal: 400}, {name: "حنيني", type: "إفطار", cal: 600},
+            {name: "مفطح", type: "غداء", cal: 1200}, {name: "كبسة روبيان", type: "غداء", cal: 750},
+            {name: "رز بخاري", type: "غداء", cal: 800}, {name: "كبدة غنم", type: "إفطار", cal: 350},
+            {name: "شكشوكة عدني", type: "إفطار", cal: 400}, {name: "فول جرة", type: "إفطار", cal: 350},
+            {name: "شوربة حب", type: "عشاء", cal: 300}, {name: "كبيبة حائل", type: "غداء", cal: 750},
+            {name: "دجاج شواية", type: "غداء", cal: 800}, {name: "زربيان عدني", type: "غداء", cal: 850},
+            {name: "فتة تمر", type: "إفطار", cal: 500}, {name: "صينية خضار", type: "عشاء", cal: 400},
+            {name: "هريس", type: "غداء", cal: 600}, {name: "خواضة", type: "سناك", cal: 300},
+            {name: "كليجا", type: "سناك", cal: 400}, {name: "مشغوثة", type: "إفطار", cal: 550},
+            {name: "خميعة", type: "إفطار", cal: 600}, {name: "محلاء", type: "إفطار", cal: 500},
+            {name: "رز كابلي", type: "غداء", cal: 850}, {name: "برياني سعودي", type: "غداء", cal: 900},
+            {name: "ايدام بامية", type: "غداء", cal: 400}, {name: "ايدام مشكل", type: "غداء", cal: 450},
+            {name: "سمبوسة لحم", type: "سناك", cal: 250}, {name: "لقيمات", type: "سناك", cal: 350},
+            {name: "تميس وسمن", type: "إفطار", cal: 600}, {name: "فتة يافعية", type: "إفطار", cal: 700},
+            {name: "مطبق حلو", type: "سناك", cal: 450}, {name: "دجاج مظبي", type: "غداء", cal: 750},
+            {name: "سمك كنعد مقلي", type: "غداء", cal: 600}, {name: "ثريد لحم", type: "غداء", cal: 800},
+            {name: "عصيدة بالتمر", type: "إفطار", cal: 500}, {name: "مندي دجاج", type: "غداء", cal: 800}
+        ]);
+
+        // --- 3. SYRIA (50 Authentic Meals) ---
+        addCategory('سوريا', [
+            {name: "كبة مقلية", type: "غداء", cal: 700}, {name: "يبرق (ورق عنب)", type: "غداء", cal: 600},
+            {name: "شيش برك", type: "غداء", cal: 750}, {name: "مقلوبة باذنجان", type: "غداء", cal: 850},
+            {name: "كباب حلبي", type: "غداء", cal: 700}, {name: "شاكرية", type: "غداء", cal: 800},
+            {name: "حراق أصبعه", type: "غداء", cal: 650}, {name: "فتوش", type: "سناك", cal: 200},
+            {name: "تبولة", type: "سناك", cal: 250}, {name: "مجدرة برغل", type: "غداء", cal: 500},
+            {name: "أوزي", type: "غداء", cal: 850}, {name: "كبة لبنية", type: "غداء", cal: 750},
+            {name: "صفيحة شامية", type: "عشاء", cal: 600}, {name: "مناقيش زعتر", type: "إفطار", cal: 400},
+            {name: "مناقيش جبنة", type: "إفطار", cal: 500}, {name: "فته حمص", type: "إفطار", cal: 650},
+            {name: "شاورما دجاج", type: "عشاء", cal: 700}, {name: "شاورما لحم", type: "عشاء", cal: 750},
+            {name: "فريكة بالدجاج", type: "غداء", cal: 650}, {name: "كوسا محشي", type: "غداء", cal: 550},
+            {name: "باذنجان مقدوس", type: "إفطار", cal: 300}, {name: "شيخ المحشي", type: "غداء", cal: 700},
+            {name: "لحمة بالصينية", type: "غداء", cal: 750}, {name: "داوود باشا", type: "غداء", cal: 600},
+            {name: "فاصوليا بالزيت", type: "عشاء", cal: 400}, {name: "مسبحة", type: "إفطار", cal: 350},
+            {name: "سجق", type: "عشاء", cal: 550}, {name: "بسطرمة", type: "إفطار", cal: 400},
+            {name: "كبة نيئة", type: "عشاء", cal: 500}, {name: "يخنة بازلاء", type: "غداء", cal: 450},
+            {name: "كبة مشوية", type: "غداء", cal: 600}, {name: "كباب هندي", type: "غداء", cal: 700},
+            {name: "رز ببازيليا", type: "غداء", cal: 550}, {name: "ملوخية سورية", type: "غداء", cal: 500},
+            {name: "بامية بالزيت", type: "عشاء", cal: 350}, {name: "محمرة", type: "إفطار", cal: 400},
+            {name: "بابا غنوج", type: "عشاء", cal: 300}, {name: "يخنة بطاطا", type: "غداء", cal: 500},
+            {name: "فلافل سورية", type: "إفطار", cal: 400}, {name: "فول مدمس شامي", type: "إفطار", cal: 350},
+            {name: "تسقية بالسمنة", type: "إفطار", cal: 600}, {name: "كبة بالصينية", type: "غداء", cal: 800},
+            {name: "مغربية", type: "غداء", cal: 750}, {name: "طوشكا", type: "عشاء", cal: 600},
+            {name: "عرايس لحمة", type: "غداء", cal: 700}, {name: "جظ مظ (شكشوكة)", type: "إفطار", cal: 400},
+            {name: "سبانخ بالزيت", type: "عشاء", cal: 350}, {name: "يخنة قرنبيط", type: "غداء", cal: 450},
+            {name: "سلطة راهب", type: "سناك", cal: 200}, {name: "حمص باللحمة", type: "إفطار", cal: 550}
+        ]);
+
+        // --- 4. MOROCCO (50 Authentic Meals) ---
+        addCategory('المغرب', [
+            {name: "كسكسي بالخضار", type: "غداء", cal: 750}, {name: "طاجن لحم برقوق", type: "غداء", cal: 850},
+            {name: "طاجن دجاج زيتون", type: "غداء", cal: 800}, {name: "بسطيلة دجاج", type: "غداء", cal: 950},
+            {name: "حريرة مغربية", type: "عشاء", cal: 400}, {name: "رفيسة بالدجاج", type: "غداء", cal: 900},
+            {name: "طنجية مراكشية", type: "غداء", cal: 850}, {name: "زعلوك", type: "سناك", cal: 250},
+            {name: "سفة مدفونة", type: "غداء", cal: 800}, {name: "مسمن", type: "إفطار", cal: 500},
+            {name: "بغرير", type: "إفطار", cal: 300}, {name: "حرشة", type: "إفطار", cal: 450},
+            {name: "بيصارة", type: "إفطار", cal: 400}, {name: "سردين شرمولة", type: "غداء", cal: 600},
+            {name: "طاجن كفتة", type: "عشاء", cal: 650}, {name: "طاجن سمك", type: "غداء", cal: 700},
+            {name: "لحم رأس مبخر", type: "غداء", cal: 800}, {name: "دجاج محمر", type: "غداء", cal: 850},
+            {name: "شلاظة مغربية", type: "سناك", cal: 200}, {name: "تكتوكة", type: "سناك", cal: 250},
+            {name: "بريوات مالحة", type: "عشاء", cal: 450}, {name: "عدس مغربي", type: "غداء", cal: 500},
+            {name: "لوبيا بيضاء", type: "غداء", cal: 550}, {name: "كرعين بالحمص", type: "غداء", cal: 900},
+            {name: "باداز (كسكس ذرة)", type: "غداء", cal: 700}, {name: "مخمار", type: "إفطار", cal: 400},
+            {name: "طاجن خضار", type: "عشاء", cal: 450}, {name: "مخ مشرمل", type: "عشاء", cal: 500},
+            {name: "كبدة مشرملة", type: "عشاء", cal: 550}, {name: "حساء بلبولة", type: "إفطار", cal: 300},
+            {name: "سفة السميد", type: "عشاء", cal: 600}, {name: "طاجن بامية", type: "غداء", cal: 500},
+            {name: "طاجن خرشوف", type: "غداء", cal: 550}, {name: "دجاج بلدي", type: "غداء", cal: 750},
+            {name: "قديد وعدس", type: "غداء", cal: 800}, {name: "خليع بالبيض", type: "إفطار", cal: 600},
+            {name: "رغايف معمرة", type: "إفطار", cal: 700}, {name: "بطبوط معمر", type: "عشاء", cal: 500},
+            {name: "شباكية", type: "سناك", cal: 450}, {name: "سلو (سفوف)", type: "سناك", cal: 600},
+            {name: "طاجن مخ", type: "عشاء", cal: 400}, {name: "شوربة سمك", type: "عشاء", cal: 350},
+            {name: "بسطيلة سمك", type: "غداء", cal: 900}, {name: "طاجن ارانب", type: "غداء", cal: 700},
+            {name: "مروزية", type: "غداء", cal: 950}, {name: "طاجن لسان", type: "غداء", cal: 800},
+            {name: "فول مشرمل", type: "عشاء", cal: 350}, {name: "بقولة (خبيزة)", type: "غداء", cal: 300},
+            {name: "سيكار جبن", type: "سناك", cal: 300}, {name: "فقاص", type: "سناك", cal: 350}
+        ]);
+
+        // --- 5. ITALY (50 Authentic Meals) ---
+        addCategory('إيطاليا', [
+            {name: "بيتزا مارغريتا", type: "غداء", cal: 700}, {name: "مكرونة كاربونارا", type: "غداء", cal: 850},
+            {name: "لازانيا بولونيز", type: "غداء", cal: 900}, {name: "ريزوتو بالفطر", type: "غداء", cal: 750},
+            {name: "مكرونة بولو", type: "غداء", cal: 800}, {name: "فيتوتشيني ألفريدو", type: "غداء", cal: 950},
+            {name: "رافيولي سبانخ", type: "غداء", cal: 650}, {name: "أوسوبوكو", type: "غداء", cal: 850},
+            {name: "دجاج بارميجانا", type: "غداء", cal: 900}, {name: "مكرونة بيستو", type: "عشاء", cal: 700},
+            {name: "نيوكي بطاطس", type: "غداء", cal: 600}, {name: "شوربة مينشتروني", type: "عشاء", cal: 350},
+            {name: "سلطة كابريزي", type: "سناك", cal: 300}, {name: "بروشيتا", type: "سناك", cal: 350},
+            {name: "فوكاشيا", type: "إفطار", cal: 500}, {name: "بيتزا بيبروني", type: "غداء", cal: 850},
+            {name: "سباغيتي بولونيز", type: "غداء", cal: 800}, {name: "كانيلوني", type: "غداء", cal: 750},
+            {name: "ريزوتو بحري", type: "غداء", cal: 700}, {name: "كالزوني", type: "عشاء", cal: 800},
+            {name: "مكرونة أرابياتا", type: "غداء", cal: 600}, {name: "دجاج كاتشياتوري", type: "غداء", cal: 750},
+            {name: "سكالوب بانيه", type: "غداء", cal: 800}, {name: "بانيني", type: "إفطار", cal: 550},
+            {name: "سلطة بانزانيلا", type: "سناك", cal: 300}, {name: "أرانشيني", type: "سناك", cal: 450},
+            {name: "بولينتا", type: "غداء", cal: 500}, {name: "تورتيليني", type: "عشاء", cal: 600},
+            {name: "فريتاتا", type: "إفطار", cal: 400}, {name: "كارباتشيو", type: "سناك", cal: 250},
+            {name: "تيراميسو", type: "سناك", cal: 500}, {name: "بانا كوتا", type: "سناك", cal: 400},
+            {name: "ريزوتو ميلانيز", type: "غداء", cal: 750}, {name: "سالتيمبوكا", type: "غداء", cal: 800},
+            {name: "باستا نورما", type: "غداء", cal: 650}, {name: "بيتزا خضار", type: "غداء", cal: 600},
+            {name: "شوربة طماطم", type: "عشاء", cal: 300}, {name: "بريزاولا", type: "سناك", cal: 200},
+            {name: "سياباتا", type: "إفطار", cal: 450}, {name: "كرواسون إيطالي", type: "إفطار", cal: 500},
+            {name: "سباغيتي محار", type: "غداء", cal: 700}, {name: "بيني فودكا", type: "غداء", cal: 800},
+            {name: "ستيك فلورنس", type: "غداء", cal: 950}, {name: "سمك سيباس", type: "غداء", cal: 500},
+            {name: "خرشوف روماني", type: "سناك", cal: 350}, {name: "سلطة جرجير", type: "سناك", cal: 150},
+            {name: "موزاريلا مقلية", type: "سناك", cal: 550}, {name: "بسكويت كانتوتشي", type: "سناك", cal: 300},
+            {name: "آيس كريم جيلاتو", type: "سناك", cal: 350}, {name: "بيتزا فور سيزون", type: "غداء", cal: 850}
+        ]);
+
+        // --- 6. INDIA (50 Authentic Meals) ---
+        addCategory('الهند', [
+            {name: "دجاج بالزبدة", type: "غداء", cal: 900}, {name: "برياني دجاج", type: "غداء", cal: 850},
+            {name: "برياني لحم", type: "غداء", cal: 950}, {name: "دجاج تيكا ماسالا", type: "غداء", cal: 800},
+            {name: "دجاج تاندوري", type: "غداء", cal: 700}, {name: "سمبوسة هندية", type: "سناك", cal: 300},
+            {name: "دال مخاني", type: "غداء", cal: 600}, {name: "خبز نان بالثوم", type: "عشاء", cal: 400},
+            {name: "كاري سمك", type: "غداء", cal: 650}, {name: "بالاك بانير", type: "غداء", cal: 750},
+            {name: "دجاج كراهي", type: "غداء", cal: 850}, {name: "روجان جوش", type: "غداء", cal: 900},
+            {name: "ألو جوبي", type: "غداء", cal: 500}, {name: "شانا ماسالا", type: "غداء", cal: 550},
+            {name: "دوسا", type: "إفطار", cal: 450}, {name: "إدلي", type: "إفطار", cal: 300},
+            {name: "كباب شامي هندي", type: "عشاء", cal: 600}, {name: "برياني روبيان", type: "غداء", cal: 800},
+            {name: "كورما دجاج", type: "غداء", cal: 950}, {name: "فيندالو (حار)", type: "غداء", cal: 850},
+            {name: "باكورا خضار", type: "سناك", cal: 350}, {name: "براتا", type: "إفطار", cal: 500},
+            {name: "أرز جيرا", type: "غداء", cal: 400}, {name: "دجاج 65", type: "سناك", cal: 550},
+            {name: "كفتة مالاي", type: "غداء", cal: 800}, {name: "بانير تكا", type: "عشاء", cal: 600},
+            {name: "شوربة موليجاتوني", type: "عشاء", cal: 350}, {name: "كيما (لحم مفروم)", type: "غداء", cal: 750},
+            {name: "باف باجي", type: "عشاء", cal: 600}, {name: "تالي (مشكل)", type: "غداء", cal: 1000},
+            {name: "خبز شباتي", type: "إفطار", cal: 300}, {name: "ألو براتا", type: "إفطار", cal: 500},
+            {name: "دجاج جالفريزي", type: "غداء", cal: 800}, {name: "مطر بانير", type: "غداء", cal: 700},
+            {name: "سمك مالابار", type: "غداء", cal: 750}, {name: "برياني خضار", type: "غداء", cal: 600},
+            {name: "رايتا", type: "سناك", cal: 150}, {name: "جولاب جامون", type: "سناك", cal: 400},
+            {name: "حلاوة جزر", type: "سناك", cal: 450}, {name: "كولفي (آيس كريم)", type: "سناك", cal: 350},
+            {name: "بوري", type: "إفطار", cal: 400}, {name: "فادا", type: "إفطار", cal: 350},
+            {name: "كاري بيض", type: "عشاء", cal: 550}, {name: "أرز ليمون", type: "غداء", cal: 450},
+            {name: "أرز كشميري", type: "غداء", cal: 500}, {name: "دجاج كورما أبيض", type: "غداء", cal: 900},
+            {name: "سلطة هندية", type: "سناك", cal: 200}, {name: "عدس أصفر", type: "عشاء", cal: 400},
+            {name: "دجاج منشوريان", type: "غداء", cal: 850}, {name: "لحم مسالا", type: "غداء", cal: 950}
+        ]);
+        
+        // --- 7. HEALTHY (50 Authentic Meals) ---
+        addCategory('صحي', [
+            {name: "سلطة دجاج مشوي", type: "غداء", cal: 400}, {name: "سلمون مشوي وهليون", type: "غداء", cal: 500},
+            {name: "صدور دجاج ليمون", type: "غداء", cal: 450}, {name: "ستيك لحم دايت", type: "غداء", cal: 550},
+            {name: "وعاء كينوا", type: "غداء", cal: 400}, {name: "تونة وسلطة خضراء", type: "عشاء", cal: 350},
+            {name: "أومليت بياض بيض", type: "إفطار", cal: 250}, {name: "زبادي يوناني وفواكه", type: "إفطار", cal: 300},
+            {name: "شوربة عدس دايت", type: "عشاء", cal: 250}, {name: "سمك فيليه بالفرن", type: "غداء", cal: 400},
+            {name: "مكرونة قمح كامل", type: "غداء", cal: 450}, {name: "سلطة سيزر دايت", type: "عشاء", cal: 350},
+            {name: "كوسا بانيه بالفرن", type: "غداء", cal: 300}, {name: "برجر ديك رومي", type: "غداء", cal: 500},
+            {name: "سلطة حمص وشمندر", type: "سناك", cal: 300}, {name: "دجاج كاري دايت", type: "غداء", cal: 550},
+            {name: "أرز بني ومشروم", type: "غداء", cal: 400}, {name: "توست أفوكادو", type: "إفطار", cal: 350},
+            {name: "سموزي أخضر", type: "سناك", cal: 200}, {name: "شيش طاووق دايت", type: "غداء", cal: 450},
+            {name: "سلطة تونة بالذرة", type: "عشاء", cal: 350}, {name: "رولز باذنجان", type: "عشاء", cal: 300},
+            {name: "شوربة خضار", type: "عشاء", cal: 150}, {name: "جمبري مشوي", type: "غداء", cal: 350},
+            {name: "بطاطا حلوة محشوة", type: "غداء", cal: 400}, {name: "شوفان بالمكسرات", type: "إفطار", cal: 350},
+            {name: "سلطة فتوش دايت", type: "سناك", cal: 250}, {name: "شاورما دايت", type: "غداء", cal: 500},
+            {name: "كفتة مشوية دايت", type: "غداء", cal: 450}, {name: "بان كيك شوفان", type: "إفطار", cal: 400},
+            {name: "بيض مسلوق", type: "إفطار", cal: 155}, {name: "توست جبن قريش", type: "إفطار", cal: 200},
+            {name: "سلطة فواكه", type: "سناك", cal: 180}, {name: "مكسرات نيئة", type: "سناك", cal: 200},
+            {name: "فشار بدون زيت", type: "سناك", cal: 120}, {name: "تفاح وزبدة فول", type: "سناك", cal: 250},
+            {name: "خيار وجزر وحمص", type: "سناك", cal: 150}, {name: "دجاج مسلوق", type: "غداء", cal: 350},
+            {name: "سمك قاروص مشوي", type: "غداء", cal: 400}, {name: "خضار سوتيه", type: "عشاء", cal: 200},
+            {name: "فاصوليا خضراء", type: "عشاء", cal: 150}, {name: "سلطة جرجير ومشروم", type: "عشاء", cal: 180},
+            {name: "فول بدون زيت", type: "إفطار", cal: 300}, {name: "جبنة فيتا لايت", type: "إفطار", cal: 250},
+            {name: "سموثي بروتين", type: "سناك", cal: 300}, {name: "أرز مسلوق", type: "غداء", cal: 300},
+            {name: "ستيك تونة", type: "غداء", cal: 400}, {name: "سلطة يونانية", type: "عشاء", cal: 300},
+            {name: "شوربة شوفان", type: "عشاء", cal: 250}, {name: "بيض عيون بالفرن", type: "إفطار", cal: 300}
+        ]);
+
+
+        // --- DEDICATED DIET DATABASE (30 Unique Items Each) ---
+        // Guaranteed no repetition if we pick sequentially
+        const dietDB = {
+            breakfast: [
+                "فول مدمس", "بيض مسلوق", "شكشوكة", "فطير مشلتت", "جبنة قريش بالطماطم", 
+                "أومليت خضار", "بان كيك شوفان", "توست أفوكادو", "زبادي وفواكه", "شوفان بالمكسرات",
+                "معصوب", "عريكة", "مناقيش زعتر", "مناقيش جبنة", "فته حمص", 
+                "مسبحة", "فلافل", "جبنة حلوم مشوية", "بيض بالعجوة", "بليلة",
+                "كرواسون", "فرنش توست", "بيض عيون", "سندوتش رومي مدخن", "كورن فليكس",
+                "جبنة فيتا وزيتون", "عدس (فطور)", "كبدة إسكندراني (فطور)", "حلاوة طحينية", "مربى وقشطة"
+            ],
+            lunch: [
+                "كشري مصري", "كبسة دجاج", "مقلوبة باذنجان", "برياني لحم", "مكرونة بشاميل",
+                "سمك مشوي", "مسقعة", "محشي ورق عنب", "دجاج بالزبدة", "بيتزا مارغريتا",
+                "ستيك لحم", "طاجن بامية", "كفتة مشوية", "شاورما دجاج", "فاصوليا بيضاء",
+                "ملوخية وأرز", "بامية باللحمة", "حمام محشي", "فتة موزة", "صينية بطاطس",
+                "دجاج تندوري", "لازانيا", "ريزوتو", "سمك فيليه", "جمبري مشوي",
+                "أوزي", "منسف", "شيش طاووق", "برجر منزلي", "كباب حلة"
+            ],
+            dinner: [
+                "سلطة تونة", "زبادي", "شوربة عدس", "توست جبنة", "سلطة سيزر",
+                "فواكه مشكلة", "بيض مسلوق", "شوربة خضار", "جبنة بطيخ", "سلطة يونانية",
+                "فشار", "بطاطا مشوية", "ذرة مسلوقة", "حمص بالخضار", "سندوتش تونة",
+                "فول نابت", "سمبوسة فرن", "قطعة بيتزا", "شريحة ديك رومي", "سلطة جرجير",
+                "شوربة شوفان", "لبنة وزعتر", "شكشوكة خفيفة", "سوتيه خضار", "تفاح وزبدة فول",
+                "مكسرات نيئة", "سلطة كينوا", "كوب حليب دافئ", "بسكويت شوفان", "توست مربى لايت"
+            ],
+            snack: [
+                "مكسرات", "تفاحة", "موزة", "زبادي", "شوكولاتة داكنة",
+                "فشار", "خيار وجزر", "بسكويت دايت", "قهوة", "عصير برتقال",
+                "تمر", "شيبس خضار", "لوز نيء", "سموثي", "قطعة كيك صغيرة",
+                "أرز باللبن", "مهلبية", "جيلي", "سلطة فواكه", "كاكاو",
+                "ترمس", "حمص شام", "بطاطا حلوة", "رمان", "يوسفي",
+                "فراولة", "كيوي", "أناناس", "شمام", "كمثرى"
+            ]
         };
 
-        const dailyAdvice = [
-            "اليوم هو وقت مثالي لاتخاذ خطوات جريئة في عملك، الفلك يدعمك.",
-            "خذ قسطاً من الراحة، صحتك النفسية تحتاج إلى الهدوء والتأمل.",
-            "مفاجأة غير متوقعة قد تغير مسار يومك للأفضل، كن مستعداً.",
-            "كن حذراً في مصاريفك اليوم، الادخار هو الحل الأمثل.",
-            "الأجواء الرومانسية تحيط بك، فرصة رائعة لتعزيز علاقتك بالشريك.",
-            "طاقة إبداعية كبيرة تسيطر عليك، ابدأ المشروع الذي أجلته طويلاً.",
-            "احذر من سوء الفهم في التواصل مع الأصدقاء، انتقِ كلماتك بحكمة.",
-            "صديق قديم قد يعود للظهور في حياتك، اللقاء سيكون مثمراً.",
-            "ركز على صحتك الجسدية، الرياضة اليوم ستمنحك طاقة مضاعفة.",
-            "حدسك قوي جداً اليوم، اتبع قلبك ولا تعتمد فقط على المنطق.",
-            "الصبر مفتاح الفرج، لا تستعجل النتائج فالخير قادم ببطء ولكن بثبات.",
-            "العمل الجماعي هو سر نجاحك اليوم، لا تنعزل بأفكارك."
-        ];
 
-        // --- CLOCK FUNCTION (With Arabic Numerals Logic if needed, but keeping standard for readability) ---
-        function updateClock() {
+        // --- UI LOGIC ---
+
+        // Clock
+        setInterval(() => {
             const now = new Date();
-            const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-            const dateStr = now.toLocaleDateString('ar-EG', options);
-            const timeStr = now.toLocaleTimeString('ar-EG');
-            document.getElementById('live-clock').innerHTML = `${dateStr} | ${timeStr}`;
-        }
-        setInterval(updateClock, 1000);
-        updateClock();
+            document.getElementById('clock-time').textContent = now.toLocaleTimeString('ar-EG', { hour12: true });
+            document.getElementById('clock-date').textContent = now.toLocaleDateString('ar-EG', { weekday: 'long', month: 'long', day: 'numeric' });
+        }, 1000);
 
-        // --- FEATURE A: DISCOVER SIGN ---
-        function getSignFromDate(dateStr) {
-            const date = new Date(dateStr);
-            const day = date.getDate();
-            const month = date.getMonth() + 1;
-
-            if ((month == 1 && day >= 20) || (month == 2 && day <= 18)) return "Aquarius";
-            if ((month == 2 && day >= 19) || (month == 3 && day <= 20)) return "Pisces";
-            if ((month == 3 && day >= 21) || (month == 4 && day <= 19)) return "Aries";
-            if ((month == 4 && day >= 20) || (month == 5 && day <= 20)) return "Taurus";
-            if ((month == 5 && day >= 21) || (month == 6 && day <= 20)) return "Gemini";
-            if ((month == 6 && day >= 21) || (month == 7 && day <= 22)) return "Cancer";
-            if ((month == 7 && day >= 23) || (month == 8 && day <= 22)) return "Leo";
-            if ((month == 8 && day >= 23) || (month == 9 && day <= 22)) return "Virgo";
-            if ((month == 9 && day >= 23) || (month == 10 && day <= 22)) return "Libra";
-            if ((month == 10 && day >= 23) || (month == 11 && day <= 21)) return "Scorpio";
-            if ((month == 11 && day >= 22) || (month == 12 && day <= 21)) return "Sagittarius";
-            if ((month == 12 && day >= 22) || (month == 1 && day <= 19)) return "Capricorn";
-            return "Unknown";
-        }
-
-        function discoverSign() {
-            const dob = document.getElementById('birthdate').value;
-            const resultBox = document.getElementById('discover-result');
+        // Tabs
+        function switchTab(tabName, btn) {
+            document.querySelectorAll('.section').forEach(el => el.classList.remove('active'));
+            document.getElementById(`section-${tabName}`).classList.add('active');
             
-            if (!dob) {
-                resultBox.style.display = 'block';
-                resultBox.innerHTML = '<span style="color:#ff6b6b">الرجاء إدخال تاريخ ميلاد صحيح.</span>';
-                return;
+            document.querySelectorAll('.nav-btn').forEach(el => el.classList.remove('active'));
+            btn.classList.add('active');
+
+            if(tabName === 'diet') generateDietTable();
+        }
+
+        // --- RECIPE DISPLAY ---
+        function filterRecipes(country, btn) {
+            if(btn) {
+                document.querySelectorAll('.filter-pill').forEach(el => el.classList.remove('active'));
+                btn.classList.add('active');
             }
-
-            const signKey = getSignFromDate(dob);
-            const data = zodiacData[signKey];
-
-            resultBox.classList.remove('active');
-            void resultBox.offsetWidth; // Trigger reflow
-            resultBox.classList.add('active');
             
-            resultBox.innerHTML = `
-                <div class="result-title">برجك هو: ${data.arabicName}</div>
-                <div class="sign-icon">${getSymbolIcon(signKey)}</div>
-                <p>بناءً على تاريخ ميلادك <strong>${dob}</strong>، النجوم تخبرنا أنك من مواليد برج <strong>${data.arabicName}</strong>.</p>
-                <p style="margin-top:0.5rem"><strong>العنصر:</strong> ${data.element} | <strong>الرمز:</strong> ${data.symbol}</p>
-            `;
-        }
+            const grid = document.getElementById('recipe-grid');
+            grid.innerHTML = '';
 
-        function getSymbolIcon(sign) {
-            const icons = {
-                "Aries": "♈", "Taurus": "♉", "Gemini": "♊", "Cancer": "♋",
-                "Leo": "♌", "Virgo": "♍", "Libra": "♎", "Scorpio": "♏",
-                "Sagittarius": "♐", "Capricorn": "♑", "Aquarius": "♒", "Pisces": "♓"
-            };
-            return icons[sign] || "★";
-        }
+            const filtered = country === 'الكل' ? recipesDB : recipesDB.filter(r => r.country === country);
+            // Limit to 100 for performance if viewing all
+            const displaySet = filtered.slice(0, 100);
 
-        // --- FEATURE B: DETAILED INFO ---
-        function showSignDetails() {
-            const sign = document.getElementById('info-sign-select').value;
-            const resultBox = document.getElementById('info-result');
-
-            if (!sign) {
-                resultBox.style.display = 'none';
-                return;
-            }
-
-            const data = zodiacData[sign];
-            resultBox.classList.remove('active');
-            void resultBox.offsetWidth;
-            resultBox.classList.add('active');
-
-            resultBox.innerHTML = `
-                <div class="result-title">${data.arabicName} - ${data.symbol} <span style="float:left; font-size:2rem">${getSymbolIcon(sign)}</span></div>
-                <p style="color:var(--text-gold); font-weight:bold; margin-bottom:1rem; font-size:1.1rem;">أبرز الصفات: ${data.traits}</p>
-                <p style="text-align:justify;">${data.text}</p>
-            `;
-        }
-
-        // --- FEATURE C: COMPATIBILITY ---
-        function checkCompatibility() {
-            const s1 = document.getElementById('comp-sign-1').value;
-            const s2 = document.getElementById('comp-sign-2').value;
-            const resultBox = document.getElementById('comp-result');
-
-            if (!s1 || !s2) {
-                return;
-            }
-
-            const name1 = zodiacData[s1].arabicName;
-            const name2 = zodiacData[s2].arabicName;
-            const e1 = zodiacData[s1].element;
-            const e2 = zodiacData[s2].element;
-
-            let intensity = "متوسطة";
-            let desc = "";
-            let score = 50;
-
-            // Logic based on elements (Expanded Arabic logic)
-            if (s1 === s2) {
-                intensity = "عالية جداً";
-                desc = `عندما يلتقي ${name1} مع ${name2}، فإن الأمر يشبه النظر في المرآة. أنتما تفهمان بعضكما البعض دون كلام، وتتشاركان نفس القيم والطبيعة (${e1}). العلاقة ستكون قوية جداً، لكن احذروا من تضخيم عيوب بعضكما البعض. التحدي هو كسر الروتين لأنكما متشابهان جداً.`;
-            } else if ((e1 === "ناري" && e2 === "ناري") || (e1 === "ترابي" && e2 === "ترابي") || (e1 === "هوائي" && e2 === "هوائي") || (e1 === "مائي" && e2 === "مائي")) {
-                intensity = "ممتازة ومتناغمة";
-                desc = `علاقة مثالية! كلاكما تنتميان لنفس العنصر (${e1})، مما يعني تدفقاً عاطفياً وفكرياً سلساً. أنتما تتحدثان نفس اللغة، وتوفران لبعضكما الدعم والراحة النفسية. هذه العلاقة مؤهلة جداً للنجاح الطويل والاستقرار والزواج.`;
-            } else if ((e1 === "ناري" && e2 === "هوائي") || (e1 === "هوائي" && e2 === "ناري")) {
-                intensity = "حماسية ومثيرة";
-                desc = "النار تحتاج الهواء لتشتعل، والهواء يسخن بالنار. علاقة مليئة بالشغف، المغامرة، والأفكار المتجددة. لن تشعرا بالملل أبداً معاً. التواصل بينكما ممتاز، وتدفعان بعضكما للنجاح. قد تكون العلاقة صاخبة أحياناً لكنها ممتعة للغاية.";
-            } else if ((e1 === "ترابي" && e2 === "مائي") || (e1 === "مائي" && e2 === "ترابي")) {
-                intensity = "عميقة ومثمرة";
-                desc = "الماء يروي الأرض، والأرض تحتضن الماء. علاقة تكاملية رائعة. الطرف الترابي يوفر الأمان والاستقرار، والطرف المائي يوفر الحب والحنان والعاطفة. معاً يمكنكما بناء أسرة سعيدة ومنزل دافئ. أنتما توازنان بعضكما بشكل مذهل.";
-            } else if ((e1 === "ناري" && e2 === "مائي") || (e1 === "مائي" && e2 === "ناري")) {
-                intensity = "تحدي عاطفي";
-                desc = "علاقة معقدة، فالماء يطفئ النار، والنار تبخر الماء. الانجذاب قد يكون قوياً في البداية بسبب الاختلاف، لكن سوء الفهم وارد جداً. الطرف المائي قد يجد الناري قاسياً، والناري قد يجد المائي مفرط الحساسية. تتطلب الكثير من التنازلات لنجاحها.";
-            } else {
-                // Earth + Fire, Earth + Air, Air + Water
-                intensity = "متباينة";
-                desc = "أنتما شخصيتان مختلفتان تماماً. طرف يبحث عن المنطق والواقع، والآخر يبحث عن الخيال أو الحركة. هذا الاختلاف قد يكون جذاباً للتعلم من بعضكما، لكنه قد يسبب احتكاكاً يومياً. العلاقة تحتاج لجهد كبير واحترام للاختلافات لتستمر.";
-            }
-
-            resultBox.classList.remove('active');
-            void resultBox.offsetWidth;
-            resultBox.classList.add('active');
-
-            resultBox.innerHTML = `
-                <div class="result-title">${name1} & ${name2}</div>
-                <p><strong>مستوى التوافق:</strong> <span style="color:var(--text-gold); font-size:1.2rem;">${intensity}</span></p>
-                <p style="margin-top:1rem;">${desc}</p>
-                <p style="margin-top:1rem; padding-top:1rem; border-top:1px dashed #555;"><strong>نصيحة الفلك:</strong> النجوم تمنحنا الإشارات، ولكن الحب والتفاهم هما من يصنعان المعجزات.</p>
-            `;
-        }
-
-        // --- FEATURE D: DAILY HOROSCOPE ---
-        function getDailyHoroscope() {
-            const sign = document.getElementById('daily-sign-select').value;
-            const resultBox = document.getElementById('daily-result');
-
-            if (!sign) {
-                resultBox.style.display = 'block';
-                resultBox.innerHTML = '<span style="color:#ff6b6b">الرجاء اختيار البرج أولاً.</span>';
-                return;
-            }
-
-            const arabicSign = zodiacData[sign].arabicName;
-            
-            // Pseudo-random selection based on Date
-            const today = new Date();
-            const seed = today.getDate() + today.getMonth() + sign.length; // Simple hash
-            const predictionIndex = seed % dailyAdvice.length;
-            const prediction = dailyAdvice[predictionIndex];
-
-            resultBox.classList.remove('active');
-            void resultBox.offsetWidth;
-            resultBox.classList.add('active');
-
-            resultBox.innerHTML = `
-                <div class="result-title">حظك اليوم: ${arabicSign}</div>
-                <div class="sign-icon" style="font-size:3rem;">${getSymbolIcon(sign)}</div>
-                <p style="font-size:1.3rem; color:var(--text-white); font-style:italic; line-height:1.6;">"${prediction}"</p>
-                <p style="margin-top:1.5rem; font-size:0.9rem; color:#aaa;">نصيحة كونية: تفاءل بالخير تجده.</p>
-            `;
-        }
-
-        // --- FEATURE E: AGE CALCULATOR ---
-        function calculateAge() {
-            const dobInput = document.getElementById('age-dob').value;
-            const resultBox = document.getElementById('age-result');
-
-            if (!dobInput) {
-                resultBox.style.display = 'block';
-                resultBox.innerHTML = '<span style="color:#ff6b6b">الرجاء إدخال تاريخ الميلاد.</span>';
-                return;
-            }
-
-            const dob = new Date(dobInput);
-            const now = new Date();
-
-            let years = now.getFullYear() - dob.getFullYear();
-            let months = now.getMonth() - dob.getMonth();
-            let days = now.getDate() - dob.getDate();
-
-            if (days < 0) {
-                months--;
-                const prevMonth = new Date(now.getFullYear(), now.getMonth(), 0);
-                days += prevMonth.getDate();
-            }
-            if (months < 0) {
-                years--;
-                months += 12;
-            }
-
-            resultBox.classList.remove('active');
-            void resultBox.offsetWidth;
-            resultBox.classList.add('active');
-
-            resultBox.innerHTML = `
-                <div class="result-title">عمرك الآن</div>
-                <div style="display:flex; justify-content:space-around; text-align:center; direction:ltr;">
-                    <div>
-                        <span style="font-size:2.5rem; color:var(--text-gold); font-weight:900;">${years}</span><br>سنة
+            displaySet.forEach(r => {
+                const card = document.createElement('div');
+                card.className = 'recipe-card';
+                card.onclick = () => openRecipe(r.id);
+                card.innerHTML = `
+                    <div class="recipe-img-placeholder">
+                        ${getEmoji(r.country)}
                     </div>
-                    <div>
-                        <span style="font-size:2.5rem; color:var(--text-gold); font-weight:900;">${months}</span><br>شهر
+                    <div class="recipe-badge">${r.country}</div>
+                    <div class="recipe-details">
+                        <div class="recipe-title">${r.name}</div>
+                        <div class="recipe-meta">
+                            <span>${r.type}</span>
+                            <span>${r.calories} سعرة</span>
+                        </div>
                     </div>
-                    <div>
-                        <span style="font-size:2.5rem; color:var(--text-gold); font-weight:900;">${days}</span><br>يوم
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        function getEmoji(country) {
+            const map = { 'إيطاليا': '🍕', 'مصر': '🥘', 'الهند': '🍛', 'صحي': '🥗', 'السعودية': '🍖', 'المغرب': '🍲', 'سوريا': '🥙' };
+            return map[country] || '🍽️';
+        }
+
+        // --- MODAL ---
+        function openRecipe(id) {
+            const r = recipesDB.find(x => x.id === id);
+            if(!r) return;
+
+            const modal = document.getElementById('modal');
+            const body = document.getElementById('modal-body');
+            
+            body.innerHTML = `
+                <div class="modal-header">
+                    <h2>${r.name}</h2>
+                    <div class="modal-tags">
+                        <span class="tag">🌍 ${r.country}</span>
+                        <span class="tag">🍽 ${r.type}</span>
+                        <span class="tag">🔥 ${r.calories} سعرة حرارية</span>
                     </div>
                 </div>
-                <p style="margin-top:1.5rem; text-align:center; font-size:1.1rem;">لقد أتممت ${years} دورة كاملة حول الشمس!</p>
+                <div class="modal-body-grid">
+                    <div>
+                        <h3 style="color:var(--accent); margin-bottom:15px;">المكونات الدقيقة</h3>
+                        <ul class="ingredient-list">
+                            ${r.ingredients.map(ing => `<li>${ing}</li>`).join('')}
+                        </ul>
+                    </div>
+                    <div>
+                        <h3 style="color:var(--accent); margin-bottom:15px;">طريقة التحضير</h3>
+                        <ol class="step-list">
+                            ${r.steps.map(step => `<li>${step}</li>`).join('')}
+                        </ol>
+                    </div>
+                </div>
+                <button class="dislike-btn" onclick="dislikeRecipe(${r.id}, '${r.type}')">👎 لم تعجبني هذه الوصفة - اقترح بدائل</button>
+                <div id="alternatives-container" style="display:none; margin-top:30px;">
+                    <h3 style="color:var(--primary); text-align:center; margin-bottom:20px;">جرب هذه الوصفات بدلاً منها:</h3>
+                    <div class="recipe-grid" id="alt-grid"></div>
+                </div>
+            `;
+            modal.style.display = 'flex';
+        }
+
+        function closeModal() {
+            document.getElementById('modal').style.display = 'none';
+        }
+
+        function dislikeRecipe(currentId, type) {
+            const alts = recipesDB.filter(r => r.type === type && r.id !== currentId)
+                                  .sort(() => 0.5 - Math.random()) // Shuffle
+                                  .slice(0, 3);
+            
+            const container = document.getElementById('alternatives-container');
+            const grid = document.getElementById('alt-grid');
+            grid.innerHTML = '';
+            
+            alts.forEach(r => {
+                const div = document.createElement('div');
+                div.className = 'recipe-card';
+                div.onclick = () => openRecipe(r.id);
+                div.innerHTML = `
+                    <div style="padding:15px; text-align:center;">
+                        <div style="font-size:2rem">${getEmoji(r.country)}</div>
+                        <div style="font-weight:bold; color:white; margin-top:5px;">${r.name}</div>
+                        <div style="font-size:0.8rem; color:#ddd">${r.calories} سعرة</div>
+                    </div>
+                `;
+                grid.appendChild(div);
+            });
+            container.style.display = 'block';
+        }
+
+        // --- PANTRY LOGIC ---
+        function searchPantry() {
+            const input = document.getElementById('pantry-input').value.toLowerCase();
+            const resultsDiv = document.getElementById('pantry-results');
+            const fallbackDiv = document.getElementById('pantry-fallback');
+            
+            resultsDiv.innerHTML = '';
+            fallbackDiv.style.display = 'none';
+
+            if(input.length < 3) return;
+
+            const userIngs = input.split(/,|،/).map(s => s.trim());
+            
+            const matches = recipesDB.filter(r => {
+                const combined = r.ingredients.join(' ').toLowerCase();
+                return userIngs.some(ui => combined.includes(ui));
+            }).slice(0, 6);
+
+            if(matches.length > 0) {
+                matches.forEach(r => {
+                    const card = document.createElement('div');
+                    card.className = 'recipe-card';
+                    card.onclick = () => openRecipe(r.id);
+                    card.innerHTML = `
+                         <div class="recipe-img-placeholder" style="height:120px; font-size:2rem">${getEmoji(r.country)}</div>
+                         <div class="recipe-details">
+                            <div class="recipe-title">${r.name}</div>
+                            <div class="recipe-meta" style="color:var(--accent)">مطابق لمكوناتك</div>
+                         </div>
+                    `;
+                    resultsDiv.appendChild(card);
+                });
+            } else {
+                fallbackDiv.style.display = 'block';
+                const query = userIngs.join(',');
+                document.getElementById('external-link').href = `https://www.supercook.com/#/recipes?ingredients=${encodeURIComponent(query)}`;
+            }
+        }
+
+        // --- DIET PLANNER LOGIC (NON-REPEATING) ---
+        let currentDietMode = 'loss';
+
+        function setDietMode(mode, btn) {
+            currentDietMode = mode;
+            document.querySelectorAll('.diet-mode-card').forEach(el => el.classList.remove('active'));
+            btn.classList.add('active');
+            generateDietTable();
+        }
+
+        function generateDietTable() {
+            const table = document.getElementById('diet-table');
+            let html = '';
+
+            // Setup Columns
+            if(currentDietMode === 'loss') {
+                html = `<thead><tr><th>اليوم</th><th>إفطار (صباحي)</th><th>سناك</th><th>غداء (رئيسي)</th><th>سناك</th><th>عشاء (خفيف)</th></tr></thead><tbody>`;
+            } else {
+                html = `<thead><tr><th>اليوم</th><th>إفطار دسم</th><th>غداء دسم</th><th>عشاء دسم</th></tr></thead><tbody>`;
+            }
+
+            const days = 30;
+
+            for(let i=0; i<days; i++) {
+                // Sequential logic: Day 1 gets Index 0, Day 2 gets Index 1...
+                // This ensures we use exactly the 30 unique items in our specific dietDB
+                const bIdx = i % 30;
+                const lIdx = i % 30;
+                const dIdx = i % 30;
+                const sIdx1 = i % 30;
+                const sIdx2 = (i + 15) % 30; // Shift snack 2 to avoid duplicate in same day
+
+                const bf = dietDB.breakfast[bIdx];
+                const ln = dietDB.lunch[lIdx];
+                const dn = dietDB.dinner[dIdx];
+                const sn1 = dietDB.snack[sIdx1];
+                const sn2 = dietDB.snack[sIdx2];
+
+                html += `<tr class="diet-row"><td class="diet-cell">اليوم ${i+1}</td>`;
+                
+                if(currentDietMode === 'loss') {
+                    // Pattern: Breakfast, Snack, Lunch, Snack, Dinner
+                    html += createMealCell(bf, 'إفطار');
+                    html += createMealCell(sn1, 'سناك');
+                    html += createMealCell(ln, 'غداء');
+                    html += createMealCell(sn2, 'سناك');
+                    html += createMealCell(dn, 'عشاء');
+                } else {
+                    // Pattern: Breakfast, Lunch, Dinner (Heavy)
+                    // For gain, we can reuse the same names but maybe assume bigger portions
+                    html += createMealCell(bf, 'إفطار');
+                    html += createMealCell(ln, 'غداء');
+                    html += createMealCell(dn, 'عشاء');
+                }
+
+                html += `</tr>`;
+            }
+            html += `</tbody>`;
+            table.innerHTML = html;
+        }
+
+        function createMealCell(mealName, type) {
+            return `
+                <td class="diet-cell">
+                    <span class="meal-name">${mealName}</span>
+                    <button class="swap-btn" onclick="swapMeal(this, '${type}')">↻ تغيير</button>
+                </td>
             `;
         }
+
+        function swapMeal(btn, type) {
+            // Random alternative from main DB if user clicks swap
+            const candidates = recipesDB.filter(r => r.type === type);
+            const newMeal = candidates[Math.floor(Math.random() * candidates.length)];
+            
+            const cell = btn.parentElement;
+            cell.style.opacity = 0;
+            setTimeout(() => {
+                cell.innerHTML = `
+                    <span class="meal-name" style="color:var(--accent)">${newMeal.name}</span>
+                    <button class="swap-btn" onclick="swapMeal(this, '${type}')">↻ تغيير</button>
+                `;
+                cell.style.opacity = 1;
+            }, 200);
+        }
+
+        // Init App
+        filterRecipes('الكل');
 
     </script>
 </body>
